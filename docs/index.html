@@ -280,7 +280,7 @@ dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
       <dt>1組あたり手取り</dt><dd>1回の清掃（1組の滞在）でいくら入ったか。チェックインした月で数える</dd>
       <dt>初期投資</dt><dd>開業日より前に使ったお金（改装・電気工事・家具・開業前の家賃など）</dd>
       <dt>回収率</dt><dd>開業からの営業利益の累計 ÷ 初期投資</dd>
-      <dt>年換算利回り</dt><dd>実績期間の営業利益を今の条件（手数料・家賃）に直して1年分に引き延ばし、初期投資で割ったもの</dd>
+      <dt>年換算利回り</dt><dd>売上と変動費（手数料・リネン・清掃・光熱消耗品）は営業日数を1年に引き延ばし、家賃・ネットは月額×12を引いた年間の営業利益を、初期投資で割ったもの。手数料15.5%・家賃月7万円の今の条件で計算</dd>
     </dl>
     <ul class="notes" id="notes"></ul>
   </section>
@@ -297,7 +297,7 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const ym=k=>`${k.slice(0,4)}年${+k.slice(5)}月`, mo=k=>`${+k.slice(5)}月`;
 const fig=([k,v,s,c,extra=""])=>`<div class="fig ${c||""}"><span class="k">${k}</span><span class="v">${v}</span>${extra}<span class="s">${s||""}</span></div>`;
-const FEE_NOW=0.155, RENT_NOW=70000, RENT_OLD=65000;
+const FEE_NOW=0.155, RENT_NOW=70000, RENT_OLD=65000, NET_FEE=5813;
 
 let D, DONE, T;
 function total(ms){
@@ -366,9 +366,11 @@ function renderPeriod(key){
 function renderStatic(){
   const d=D, ms=DONE, last=ms[ms.length-1].month;
   // 投資の回収（常に全期間）
-  const init=d.initial.total, payback=T.profit/init, annualRaw=T.profit*365/T.days;
-  const profitNow=T.profit-(T.gross*FEE_NOW-T.fee)-(RENT_NOW-RENT_OLD)*12*T.days/365;
-  const annual=profitNow*365/T.days, yld=annual/init, remain=Math.max(init-T.profit,0)/annual;
+  // 年換算：売上・手数料・リネン・清掃・光熱消耗品は営業日数で1年分に引き延ばし、家賃・ネットは月額×12で引く（固定費は満額計上のため日数で割らない）
+  const variable=T.linen+T.cleaning+T.other_cost;
+  const init=d.initial.total, payback=T.profit/init;
+  const annualRaw=(T.net-variable)*365/T.days-(RENT_OLD+NET_FEE)*12;
+  const annual=(T.gross*(1-FEE_NOW)-variable)*365/T.days-(RENT_NOW+NET_FEE)*12, yld=annual/init, remain=Math.max(init-T.profit,0)/annual;
   $("inv-lead").textContent=`開業から${ym(last)}末までの累計（期間の選択に関係なく）。`;
   $("invest").innerHTML=[
     ["初期投資",man(init),`開業前の家賃${man(d.initial.by_cat["地代家賃"]||0)}を含む`],
@@ -483,12 +485,12 @@ function renderStatic(){
     `<tr class="sum"><td>合計</td><td>${yen(init)}</td><td></td></tr></tbody>`;
 
   $("notes").innerHTML=[
-    `実績は開業日（${esc(d.opening)}）から${ym(last)}末まで。7月は${ms[0].days}日分です。夏休み（7〜8月）を含むため、年換算の数字は冬の閑散期が入ると下がる見込みです。`,
+    `実績は開業日（${esc(d.opening)}）から${ym(last)}末まで。7月の売上は${ms[0].days}日分ですが、家賃とインターネットは7月も満額です。夏休み（7〜8月）を含むため、年換算の数字は冬の閑散期が入ると下がる見込みです。`,
     `年換算利回りと回収見込みは、Airbnb手数料を全予約15.5%、家賃を2027年1月からの月¥70,000に置き換えて計算した目安です。`,
     `一度きりの大きな支出を含む月があります：7月 トイレ修理 ¥51,920／8月 掃除機などの備品 ¥45,108／10月 使い捨て歯ブラシ2000セット ¥30,800（数年分を一括で計上）と玄関の電子錠 ¥11,386。`,
     `電気・水道はLINEで届いた領収書の分だけ入っています（電気は9月分まで・水道は8月分まで）。10月以降の分が届くまで、その月の利益は高めに出ます。`,
-    `Airbnbの手数料は9/16以降の予約から3%→15.5%に上がりました。家賃は契約額の日割り、インターネットは月¥5,813の固定額を日割り、リネンは単価表からの計算、清掃は10月から1回¥2,500です。`,
-    `初期投資は台帳に記帳した額で、開業前の家賃（7月1日〜15日の日割り）とインターネット代（2026年1月〜7月15日）を含みます。請求書・通帳と照合済みなのは電気工事（¥1,167,100）と家賃の一部だけで、改装工事・家具などの多くは原本の確認が済んでいません。`,
+    `Airbnbの手数料は9/16以降の予約から3%→15.5%に上がりました。家賃（月¥65,000）とインターネット（月¥5,813）は日割りせず毎月満額、リネンは単価表からの計算、清掃は10月から1回¥2,500です。`,
+    `初期投資は台帳に記帳した額で、開業前（6月まで）の家賃とインターネット代（2026年1月〜6月）を含みます。7月分の家賃・ネットは満額で7月の運営費です。請求書・通帳と照合済みなのは電気工事（¥1,167,100）と家賃の一部だけで、改装工事・家具などの多くは原本の確認が済んでいません。`,
     `口座の記帳は${esc(d.ledger_until)}まで。`,
   ].map(s=>`<li>${s}</li>`).join("");
 }

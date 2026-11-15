@@ -1,9 +1,9 @@
 {
- "generated": "2026-11-15 17:05",
+ "generated": "2026-11-15 17:12",
  "opening": "2026-07-16",
  "ledger_until": "2026-11-05",
  "initial": {
-  "total": 3477193,
+  "total": 3442928,
   "monthly": {
    "2025-09": {
     "消耗品費": 15990,
@@ -70,18 +70,16 @@
     "修繕費": 1167100,
     "支払手数料": 130,
     "光熱費": 13407,
-    "消耗品費": 61946,
-    "地代家賃": 31452,
-    "通信費": 2813
+    "消耗品費": 61946
    }
   },
-  "sheet": "https://docs.google.com/spreadsheets/d/1rCDebuYrVctwk5GOO7QTUbmFHImvCiRsgGPFlN8ciWw/edit#gid=500842617",
+  "sheet": "https://docs.google.com/spreadsheets/d/1iYjPmsbEjz1-ypWSFZtqZjNcVfCNq0sp4Il0aYwZXZE/edit",
   "by_cat": {
    "修繕費": 1667677,
    "消耗品費": 1009554,
-   "地代家賃": 681452,
+   "地代家賃": 650000,
    "光熱費": 45792,
-   "通信費": 43504,
+   "通信費": 40691,
    "リネン費": 10450,
    "車両費": 7396,
    "荷造運賃": 6330,
@@ -101,13 +99,13 @@
    "gross": 192000,
    "fee": 5760,
    "net": 186240,
-   "rent": 33548,
-   "internet": 3000,
+   "rent": 65000,
+   "internet": 5813,
    "linen": 9520,
    "cleaning": 0,
    "other_cost": 62879,
-   "cost": 108948,
-   "profit": 77292,
+   "cost": 143212,
+   "profit": 43028,
    "stays": 3,
    "net_per_turnover": 69840.0,
    "guests": 14,
