@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15 21:11",
+ "generated": "2026-11-15 21:43",
  "opening": "2026-07-16",
  "ledger_until": "2026-11-05",
  "initial": {
@@ -2499,6 +2499,104 @@
   "incoming_dates": [
    "2026-11-20"
   ]
+ },
+ "guests": {
+  "by_country": [
+   {
+    "country": "日本",
+    "bookings": 8,
+    "people": 63,
+    "nights": 8,
+    "src": [
+     "プロフィール",
+     "定期報告"
+    ]
+   },
+   {
+    "country": "韓国",
+    "bookings": 3,
+    "people": 26,
+    "nights": 5,
+    "src": [
+     "プロフィール"
+    ]
+   },
+   {
+    "country": "香港",
+    "bookings": 3,
+    "people": 21,
+    "nights": 10,
+    "src": [
+     "プロフィール"
+    ]
+   },
+   {
+    "country": "台湾",
+    "bookings": 2,
+    "people": 17,
+    "nights": 5,
+    "src": [
+     "プロフィール"
+    ]
+   },
+   {
+    "country": "カナダ",
+    "bookings": 1,
+    "people": 8,
+    "nights": 1,
+    "src": [
+     "プロフィール"
+    ]
+   },
+   {
+    "country": "中国",
+    "bookings": 1,
+    "people": 4,
+    "nights": 2,
+    "src": [
+     "プロフィール"
+    ]
+   },
+   {
+    "country": "不明",
+    "bookings": 1,
+    "people": 4,
+    "nights": 1,
+    "src": [
+     "不明"
+    ]
+   },
+   {
+    "country": "アラブ首長国連邦",
+    "bookings": 1,
+    "people": 1,
+    "nights": 1,
+    "src": [
+     "プロフィール"
+    ]
+   }
+  ],
+  "decades": {
+   "70年代": 1,
+   "80年代": 2,
+   "90年代": 1
+  },
+  "decade_n": 4,
+  "composition": {
+   "adult": 118,
+   "child": 23,
+   "infant": 3,
+   "family": 10,
+   "bookings": 20,
+   "people": 144
+  },
+  "sizes": {
+   "5〜6名": 2,
+   "1〜4名": 3,
+   "7〜8名": 11,
+   "9名以上": 4
+  },
+  "profiles_at": "2026-11-15"
  },
  "unconfirmed_total": 0
 }

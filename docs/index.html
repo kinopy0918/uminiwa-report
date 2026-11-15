@@ -139,6 +139,9 @@ dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
 .btn:hover{background:var(--accent-soft)}
 #tk{grid-template-columns:repeat(4,minmax(0,1fr))}
 #cash{grid-template-columns:repeat(6,minmax(0,1fr))}
+#g-figs{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:900px){#g-figs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.gbar{height:10px;background:var(--track);border-radius:99px;overflow:hidden}.gbar i{display:block;height:100%;background:var(--accent);border-radius:99px}
 @media (max-width:1200px){#cash{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:620px){#cash{grid-template-columns:repeat(2,minmax(0,1fr))}}
 #cash .fig .v{font-size:20px}
@@ -308,6 +311,24 @@ svg.i{width:16px;height:16px;flex:none;display:inline-block;vertical-align:-3px}
   </section>
   </div>
   <div class="view" id="v-marketing">
+  <section class="block" id="s-guests">
+    <h2>泊まった人</h2>
+    <p class="lead" id="g-lead"></p>
+    <div class="figs" id="g-figs"></div>
+    <div class="row even" style="margin-top:16px">
+      <div style="min-width:0">
+        <h3>どこから来たか（予約した人の居住地）</h3>
+        <div class="scroll"><table id="g-country" style="min-width:0"></table></div>
+      </div>
+      <div style="min-width:0">
+        <h3>何人で来たか</h3>
+        <div id="g-sizes"></div>
+        <h3 style="margin-top:16px">年代・男女</h3>
+        <p class="lead" id="g-age" style="margin:0"></p>
+      </div>
+    </div>
+    <ul class="notes" id="g-notes"></ul>
+  </section>
   <section class="block" id="s-mkt">
     <h2><span class="no">07</span>集客</h2>
     <p class="lead" id="views-lead"></p>
@@ -406,9 +427,9 @@ const svgI=(n,cls="")=>IC[n]?`<svg class="i ${cls}" viewBox="0 0 24 24" fill="no
 const LABEL_IC=[["営業利益の累計","trend","good"],["営業利益","trend","good"],["売上","yen"],["稼働率","bed"],["1泊の平均単価","tag"],["1日あたり売上","sun"],["1組あたり手取り","user"],
  ["初期投資","building"],["回収率","target"],["年換算利回り","percent"],["回収までの見込み","clock"],
  ["海庭の口座","bank"],["キノシタの口座で預かり中","inbox"],["現預金の合計","wallet","good"],["これから届くAirbnb入金","calendar"],["立替の未精算","alert","warn"],["差し引き","scale"],
- ["出資","users"],["立替の合計","receipt"],["精算済み","check","good"],["未精算の合計","alert","warn"]];
+ ["出資","users"],["泊まった人数","users"],["家族連れ","user"],["海外から","target"],["大人・子ども・乳幼児","users"],["立替の合計","receipt"],["精算済み","check","good"],["未精算の合計","alert","warn"]];
 const iconFor=k=>{const t=String(k).replace(/<[^>]*>/g,""); const h=LABEL_IC.find(([l])=>t.startsWith(l)); return h?`<span class="ic ${h[2]||""}">${svgI(h[1])}</span>`:""};
-const SEC_IC={"s-sum":"dashboard","s-chart":"bar","s-flow":"flow","s-inv":"target","s-ahead":"calendar","s-pl":"table","s-cash":"wallet","s-tk":"coins","s-tk-equity":"users","s-tk-people":"user","s-tk-notes":"info","s-tk-month":"calendar","s-tk-list":"receipt","s-mkt":"eye","s-init-month":"building","s-init":"pie","s-notes":"info"};
+const SEC_IC={"s-sum":"dashboard","s-chart":"bar","s-flow":"flow","s-inv":"target","s-ahead":"calendar","s-pl":"table","s-cash":"wallet","s-tk":"coins","s-tk-equity":"users","s-tk-people":"user","s-tk-notes":"info","s-tk-month":"calendar","s-tk-list":"receipt","s-mkt":"eye","s-guests":"users","s-init-month":"building","s-init":"pie","s-notes":"info"};
 function decorate(){
   document.querySelectorAll("section.block[id]").forEach(sec=>{const h=sec.querySelector("h2"); const n=SEC_IC[sec.id];
     if(h&&n&&!h.querySelector(".hic")) h.insertAdjacentHTML("afterbegin",`<span class="hic">${svgI(n)}</span>`)});
@@ -540,6 +561,29 @@ function renderStatic(){
       `Airbnbの売上はいったんキノシタの個人口座に入り、まとめて海庭の口座に移しています。そのため「預かり中」の額があります。`,
       `「預かり中」＝Airbnbの送金のうち着金日を過ぎた合計から、海庭の口座に入ったAirbnbの売上を引いた額です。`,
       `「差し引き」は今ある現預金と立替の未精算だけの比較です。これからの家賃・電気水道・ネット代などの支払いと、これからの売上は含みません。`,
+    ].map(s=>`<li>${s}</li>`).join("");
+  }
+
+  // 泊まった人
+  const G=d.guests;
+  if(G){
+    const c=G.composition, tot=c.people;
+    $("g-lead").textContent=`泊まり終わった${c.bookings}組・${c.people}人（${ym(DONE[0].month)}〜）。`;
+    $("g-figs").innerHTML=[
+      ["泊まった人数",`${c.people}人`,`${c.bookings}組・1組平均${(c.people/c.bookings).toFixed(1)}人`],
+      ["家族連れ",pct(c.family/c.bookings),`子ども・乳幼児がいた組 ${c.family}/${c.bookings}`],
+      ["海外から",pct(G.by_country.filter(x=>x.country!=="日本"&&x.country!=="不明").reduce((a,x)=>a+x.bookings,0)/c.bookings),"予約した人の居住地が日本以外の組"],
+      ["大人・子ども・乳幼児",`${c.adult}・${c.child}・${c.infant}`,"人"],
+    ].map(fig).join("");
+    const maxP=Math.max(...G.by_country.map(x=>x.people));
+    $("g-country").innerHTML=`<thead><tr><th>国・地域</th><th>組</th><th>人数</th><th style="min-width:90px"></th><th style="text-align:left">根拠</th></tr></thead><tbody>`+
+      G.by_country.map(x=>`<tr><td>${esc(x.country)}</td><td>${x.bookings}</td><td>${x.people}人</td><td><div class="gbar"><i style="width:${x.people/maxP*100}%"></i></div></td><td style="text-align:left;font-size:11px;color:var(--faint)">${x.src.map(s=>s==="プロフィール"?"本人の登録":s==="定期報告"?"民泊の報告":"—").join("・")}</td></tr>`).join("")+`</tbody>`;
+    const order=["1〜4名","5〜6名","7〜8名","9名以上"], maxS=Math.max(...order.map(k=>G.sizes[k]||0),1);
+    $("g-sizes").innerHTML=order.map(k=>`<div class="flow-row"><span>${k}</span><div class="track"><i style="left:0;width:${(G.sizes[k]||0)/maxS*100}%;background:var(--accent)"></i></div><span class="amt">${G.sizes[k]||0}組</span></div>`).join("");
+    $("g-age").innerHTML=`年代：予約した本人がプロフィールに登録していた${G.decade_n}人だけ分かります（${Object.entries(G.decades).map(([k,v])=>`${esc(k)} ${v}人`).join("・")}）。<br>男女：Airbnbはホストに性別を見せないため分かりません。`;
+    $("g-notes").innerHTML=[
+      `国・地域は、予約した人がAirbnbのプロフィールに登録した居住地です（${esc(G.profiles_at)}時点）。登録がない人は民泊の定期報告で届け出た国、それもない人は「不明」にしています。同じグループの他の人の国は分かりません。`,
+      `プロフィールの居住地は「住んでいる場所」なので、国籍とは違うことがあります（海外在住の日本人など）。`,
     ].map(s=>`<li>${s}</li>`).join("");
   }
   // 出資と立替
