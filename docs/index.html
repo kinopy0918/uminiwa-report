@@ -6,197 +6,349 @@
 <meta name="robots" content="noindex,nofollow">
 <title>海庭 事業レポート</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho:wght@600&family=Roboto+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700&family=Roboto+Mono:wght@400;500&display=swap">
 <style>
-/* 上から「投資は回収できているか → 運営は健全か → 月ごとの中身 → この先」の順に読む */
+/* 明るい資料風：白い紙・細い罫線・明朝の見出し。印刷してもそのまま読める
+   読む順＝選んだ期間の要点 → お金の流れ → 投資の回収 → 月ごと → 立替 → この先 → 集客 → 初期投資 → 決め方 */
 :root{
-  --bg:#f2f4f3; --panel:#ffffff; --ink:#18282c; --muted:#5d6c6f; --line:#d9e0df;
-  --sea:#1f6f73; --sea-soft:#d4e7e6; --sand:#c9a46a; --good:#2e7d4f; --bad:#b23b3b;
-  --display:"Shippori Mincho","Hiragino Mincho ProN",serif;
-  --body:"Noto Sans JP","Hiragino Sans",system-ui,sans-serif;
+  --paper:#ffffff; --desk:#f4f2ee; --ink:#1d2327; --muted:#646b70; --faint:#9aa0a4; --rule:#e3e0da; --rule-strong:#1d2327;
+  --accent:#1f5f63; --accent-soft:#e6efee; --cost:#b89463; --good:#2b7a4b; --bad:#b03a3a;
+  --serif:"Noto Serif JP","Hiragino Mincho ProN",serif;
+  --sans:"Noto Sans JP","Hiragino Sans",system-ui,sans-serif;
   --mono:"Roboto Mono",ui-monospace,monospace;
+  color-scheme:light;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0f1719; --panel:#152124; --ink:#e4ecea; --muted:#93a4a5; --line:#26373a;
-  --sea:#5fb3b0; --sea-soft:#1d3a3c; --sand:#d7b67f; --good:#5cbf86; --bad:#e07a7a; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#0f1719; --panel:#152124; --ink:#e4ecea; --muted:#93a4a5; --line:#26373a;
-  --sea:#5fb3b0; --sea-soft:#1d3a3c; --sand:#d7b67f; --good:#5cbf86; --bad:#e07a7a; color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.7}
-.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 56px;display:grid;grid-template-columns:minmax(0,1fr);gap:24px}
-@media (max-width:520px){.wrap{padding-inline:16px}}
-header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 24px}
-h1{font-family:var(--display);font-size:clamp(28px,5vw,40px);margin:0;letter-spacing:.06em;line-height:1.2}
-h1 small{display:block;font-family:var(--body);font-size:13px;font-weight:500;letter-spacing:.2em;color:var(--sea)}
-.stamp{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right}
-h2{font-size:17px;margin:0 0 4px}
-.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--sea);margin:0 0 -12px}
-.lead{color:var(--muted);font-size:13px;margin:0 0 14px}
-section{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;min-width:0}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-.tile{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:2px;align-content:start}
-.tile .k{font-size:12.5px;color:var(--muted);font-weight:500}
-.tile .v{font-family:var(--mono);font-size:26px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.3}
-.tile .s{font-size:12px;color:var(--muted);line-height:1.6}
-.tile.hero{border-color:var(--sea);box-shadow:inset 0 3px 0 var(--sea)}
-.progress{height:14px;background:var(--sea-soft);border-radius:99px;overflow:hidden;margin-top:6px}
-.progress i{display:block;height:100%;background:var(--sea);border-radius:99px}
+body{margin:0;background:var(--desk);color:var(--ink);font-family:var(--sans);font-size:14.5px;line-height:1.75}
+.paper{max-width:1040px;margin:24px auto 64px;background:var(--paper);padding:48px 56px 56px;box-shadow:0 1px 2px rgba(0,0,0,.06),0 8px 28px rgba(0,0,0,.05)}
+@media (max-width:720px){.paper{margin:0;padding:28px 16px 40px;box-shadow:none}}
+header.top{display:grid;grid-template-columns:1fr auto;gap:12px 24px;align-items:end;border-bottom:2px solid var(--rule-strong);padding-bottom:18px}
+@media (max-width:620px){header.top{grid-template-columns:1fr}}
+.kicker{font-size:11.5px;letter-spacing:.24em;color:var(--accent);font-weight:700;margin:0 0 6px}
+h1{font-family:var(--serif);font-weight:700;font-size:clamp(26px,4.4vw,36px);letter-spacing:.08em;margin:0;line-height:1.25}
+.meta{font-size:12px;color:var(--muted);margin:6px 0 0}
+.picker{display:grid;gap:4px;justify-items:end}
+@media (max-width:620px){.picker{justify-items:start}}
+.picker label{font-size:11.5px;color:var(--muted);letter-spacing:.08em}
+select{font:inherit;font-size:15px;font-weight:700;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:2px;padding:7px 38px 7px 12px;appearance:none;min-width:220px;cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 18px) 55%,calc(100% - 13px) 55%;background-size:5px 5px;background-repeat:no-repeat}
+select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.block{padding-top:34px}
+h2{font-family:var(--serif);font-weight:700;font-size:19px;letter-spacing:.06em;margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+h2 .no{font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:500;letter-spacing:0}
+.lead{color:var(--muted);font-size:13px;margin:0 0 16px}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.fig{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:14px 16px 12px;display:grid;gap:1px;align-content:start}
+.fig .k{font-size:12px;color:var(--muted)}
+.fig .v{font-family:var(--mono);font-size:24px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.35;letter-spacing:-.01em}
+.fig .s{font-size:11.5px;color:var(--faint);line-height:1.55}
+.fig.key .v{color:var(--accent)}
+.bar{height:6px;background:var(--accent-soft);margin:6px 0 2px}
+.bar i{display:block;height:100%;background:var(--accent)}
+.flow{display:grid;gap:7px}
+.flow-row{display:grid;grid-template-columns:9em 1fr 7.5em;gap:12px;align-items:center;font-size:13px}
+.flow-row .track{height:18px;background:#f6f5f2;position:relative}
+.flow-row .track i{position:absolute;top:0;bottom:0}
+.flow-row .amt{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.flow-row.total{border-top:1px solid var(--ink);padding-top:7px;font-weight:700}
+@media (max-width:520px){.flow-row{grid-template-columns:6.5em 1fr 6.5em;font-size:12px}}
 .scroll{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:640px}
-th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:600px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
 th:first-child,td:first-child{text-align:left}
-thead th{font-size:12px;color:var(--muted);font-weight:500}
+thead th{font-size:11.5px;color:var(--muted);font-weight:500;border-bottom:1px solid var(--ink)}
 td{font-family:var(--mono);font-variant-numeric:tabular-nums}
-td:first-child{font-family:var(--body)}
-tr.em{background:var(--sea-soft)}
-tr.sep td{border-top:2px solid var(--line)}
-td.grp{font-size:12px;color:var(--muted);font-weight:700;padding-top:14px}
+td:first-child{font-family:var(--sans)}
+td.grp{font-family:var(--sans);font-size:11.5px;color:var(--accent);font-weight:700;letter-spacing:.08em;padding-top:16px;border-bottom:none}
+tr.sum td{font-weight:700;border-top:1px solid var(--ink)}
+.sel{background:var(--accent-soft)}
 .neg{color:var(--bad)} .pos{color:var(--good)}
-.notes{font-size:12.5px;color:var(--muted);display:grid;gap:4px;margin:12px 0 0;padding-left:1.2em}
-.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-bottom:4px}
-.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}
-dl.gloss{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0;font-size:13px}
-dl.gloss dt{font-weight:700} dl.gloss dd{margin:0;color:var(--muted)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px}
+.two>div{min-width:0}
+.chip{display:inline-block;font-family:var(--sans);font-size:11px;padding:0 8px;border:1px solid var(--rule);color:var(--muted);white-space:nowrap}
+.chip.good{border-color:var(--good);color:var(--good)} .chip.bad{border-color:var(--bad);color:var(--bad)} .chip.run{border-color:var(--accent);color:var(--accent)}
+td.wrap{white-space:normal;font-family:var(--sans);min-width:16em;text-align:left;line-height:1.6}
+#exps td{vertical-align:top}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:4px}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px}
 svg text{fill:var(--muted);font-family:var(--mono);font-size:11px}
+dl.gloss{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin:0;font-size:12.5px}
+dl.gloss dt{font-weight:700} dl.gloss dd{margin:0;color:var(--muted)}
+.notes{font-size:12px;color:var(--muted);display:grid;gap:4px;margin:14px 0 0;padding-left:1.2em}
 .err{color:var(--bad)}
+@media print{body{background:#fff}.paper{box-shadow:none;margin:0;max-width:none}.picker{display:none}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1><small>UMINIWA · BEPPU</small>海庭 事業レポート</h1>
-    <div class="stamp" id="stamp">読み込み中…</div>
+<main class="paper">
+  <header class="top">
+    <div>
+      <p class="kicker">UMINIWA · BEPPU</p>
+      <h1>海庭 事業レポート</h1>
+      <p class="meta" id="stamp">読み込み中…</p>
+    </div>
+    <div class="picker">
+      <label for="period">見る期間</label>
+      <select id="period"></select>
+    </div>
   </header>
 
-  <p class="eyebrow">投資の回収</p>
-  <div class="tiles" id="invest"></div>
+  <section class="block">
+    <h2><span class="no">01</span><span id="sum-title">要点</span></h2>
+    <p class="lead" id="sum-lead"></p>
+    <div class="figs" id="sum"></div>
+  </section>
 
-  <p class="eyebrow">運営の状態</p>
-  <div class="tiles" id="ops"></div>
+  <section class="block">
+    <h2><span class="no">02</span><span id="flow-title">お金の流れ</span></h2>
+    <p class="lead">売上から何を引いて、いくらが営業利益として残ったか。</p>
+    <div class="flow" id="flow"></div>
+  </section>
 
-  <section>
-    <h2 id="pl-title">月ごとの収支</h2>
+  <section class="block">
+    <h2><span class="no">03</span>投資の回収</h2>
+    <p class="lead" id="inv-lead"></p>
+    <div class="figs" id="invest"></div>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">04</span>月ごとの収支</h2>
     <p class="lead" id="pl-lead"></p>
     <div id="pl-chart"></div>
     <div class="scroll" style="margin-top:14px"><table id="pl"></table></div>
   </section>
 
-  <section>
-    <h2>この先の予約</h2>
-    <p class="lead" id="ahead-lead"></p>
-    <div class="scroll"><table id="ahead" style="min-width:420px"></table></div>
+  <section class="block">
+    <h2><span class="no">05</span>立替と精算</h2>
+    <p class="lead">運営者が個人のカードなどで立て替えた支払いと、口座からの精算の状況。</p>
+    <div class="figs" id="tk"></div>
+    <ul class="notes" id="tk-notes"></ul>
   </section>
 
-  <section>
-    <h2>数字の決め方と注意点</h2>
+  <section class="block">
+    <h2><span class="no">06</span>この先の予約</h2>
+    <p class="lead" id="ahead-lead"></p>
+    <div class="scroll"><table id="ahead" style="min-width:460px"></table></div>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">07</span>集客</h2>
+    <p class="lead" id="views-lead"></p>
+    <div id="views"></div>
+    <div class="two" style="margin-top:24px">
+      <div>
+        <h3 style="font-size:14px;margin:0 0 4px">人数ごとの単価</h3>
+        <p class="lead" id="bands-lead"></p>
+        <div class="scroll"><table id="bands" style="min-width:0"></table></div>
+      </div>
+      <div>
+        <h3 style="font-size:14px;margin:0 0 4px">何人で検索すると何位に出るか</h3>
+        <p class="lead" id="rank-lead"></p>
+        <div id="rank"></div>
+      </div>
+    </div>
+    <h3 style="font-size:14px;margin:24px 0 8px">施策と結果</h3>
+    <div class="scroll"><table id="exps"></table></div>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">08</span>初期投資の内訳</h2>
+    <p class="lead" id="init-lead"></p>
+    <div class="scroll"><table id="init" style="min-width:0;max-width:520px"></table></div>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">09</span>数字の決め方と注意点</h2>
     <dl class="gloss">
+      <dt>売上</dt><dd>Airbnbに設定した宿泊料の合計。泊まった日で月に割り振る</dd>
+      <dt>手取り</dt><dd>売上からAirbnbの手数料を引いた額</dd>
+      <dt>営業利益</dt><dd>手取りから家賃・リネン・清掃・光熱・消耗品を引いた額。手元の現金とは一致しない</dd>
+      <dt>稼働率</dt><dd>営業日のうち宿泊が入っていた日の割合（1棟貸しなので1泊＝1日）</dd>
+      <dt>1日あたり売上</dt><dd>売上 ÷ 営業日数。空いている日も含めた稼ぐ力</dd>
+      <dt>1組あたり手取り</dt><dd>1回の清掃（1組の滞在）でいくら入ったか。チェックインした月で数える</dd>
       <dt>初期投資</dt><dd>開業日より前に使ったお金（改装・電気工事・家具・開業前の家賃など）</dd>
-      <dt>営業利益</dt><dd>売上からAirbnb手数料・家賃・リネン・清掃・光熱・消耗品を引いた額</dd>
       <dt>回収率</dt><dd>開業からの営業利益の累計 ÷ 初期投資</dd>
       <dt>年換算利回り</dt><dd>実績期間の営業利益を今の条件（手数料・家賃）に直して1年分に引き延ばし、初期投資で割ったもの</dd>
-      <dt>稼働率</dt><dd>営業日のうち宿泊が入っていた日の割合（1棟貸しなので1泊＝1日）</dd>
-      <dt>1泊の平均単価</dt><dd>売上 ÷ 泊数</dd>
-      <dt>1日あたり売上</dt><dd>売上 ÷ 営業日数。空いている日も含めた稼ぐ力</dd>
-      <dt>1組あたり手取り</dt><dd>1回の清掃（1組の滞在）でいくら手元に入ったか。清掃の手間に対する効率</dd>
     </dl>
     <ul class="notes" id="notes"></ul>
   </section>
-</div>
+</main>
 <script>
 const yen=n=>(n<0?"−":"")+"¥"+Math.round(Math.abs(n)).toLocaleString("ja-JP");
 const man=n=>(n<0?"−":"")+(Math.abs(n)/10000).toFixed(1)+"万円";
 const pct=(x,d=0)=>(x*100).toFixed(d)+"%";
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const tile=([k,v,s,c,extra=""])=>`<div class="tile ${c||""}"><span class="k">${k}</span><span class="v">${v}</span>${extra}<span class="s">${s}</span></div>`;
+const ym=k=>`${k.slice(0,4)}年${+k.slice(5)}月`, mo=k=>`${+k.slice(5)}月`;
+const fig=([k,v,s,c,extra=""])=>`<div class="fig ${c||""}"><span class="k">${k}</span><span class="v">${v}</span>${extra}<span class="s">${s||""}</span></div>`;
+const FEE_NOW=0.155, RENT_NOW=70000, RENT_OLD=65000;
+
+let D, DONE, T;
+function total(ms){
+  const s=k=>ms.reduce((a,m)=>a+(m[k]||0),0);
+  const t={gross:s("gross"),fee:s("fee"),net:s("net"),rent:s("rent"),linen:s("linen"),cleaning:s("cleaning"),other_cost:s("other_cost"),cost:s("cost"),profit:s("profit"),
+    nights:s("nights"),days:s("days"),bookings:s("bookings"),stays:s("stays")};
+  t.turnNet=ms.reduce((a,m)=>a+(m.net_per_turnover||0)*(m.stays||0),0);
+  t.occupancy=t.nights/t.days; t.adr=t.nights?t.gross/t.nights:0; t.net_per_turnover=t.stays?t.turnNet/t.stays:null;
+  return t;
+}
 
 function render(d){
-  const ms=d.months; if(!ms.length){$("pl-lead").textContent="終わった月はまだありません。";return}
-  const lab=m=>`${+m.month.slice(5)}月`, last=ms[ms.length-1].month, lastLabel=`${last.slice(0,4)}年${+last.slice(5)}月末`;
-  const sum=k=>ms.reduce((s,m)=>s+(m[k]||0),0);
-  const T={gross:sum("gross"),fee:sum("fee"),net:sum("net"),rent:sum("rent"),linen:sum("linen"),cleaning:sum("cleaning"),other_cost:sum("other_cost"),
-           cost:sum("cost"),profit:sum("profit"),nights:sum("nights"),days:sum("days"),bookings:sum("bookings"),turn:sum("turn_stays")};
-  const turnNet=ms.reduce((s,m)=>s+(m.net_per_turnover||0)*(m.turn_stays||0),0);
-  $("stamp").innerHTML=`${lastLabel}時点の実績<br>開業 ${esc(d.opening)}・更新 ${esc(d.generated.slice(0,10))}`;
+  D=d; DONE=d.months.filter(m=>m.status==="実績"); T=total(DONE);
+  const last=DONE[DONE.length-1].month;
+  $("stamp").textContent=`${ym(last)}末までの実績 ／ 開業 ${d.opening} ／ 更新 ${d.generated}`;
+  const sel=$("period");
+  sel.innerHTML=`<option value="all">全期間（開業〜${mo(last)}末）</option>`+DONE.slice().reverse().map(m=>`<option value="${m.month}">${ym(m.month)}</option>`).join("");
+  let saved="all"; try{saved=localStorage.getItem("uminiwa-report-period")||"all"}catch(e){}
+  if([...sel.options].some(o=>o.value===saved)) sel.value=saved;
+  sel.addEventListener("change",()=>{try{localStorage.setItem("uminiwa-report-period",sel.value)}catch(e){} renderPeriod(sel.value)});
+  renderStatic(); renderPeriod(sel.value);
+}
 
-  // 投資の回収
-  // 年換算は「今の条件」で計算し直す：手数料は全予約15.5%、家賃は2027年1月からの月¥70,000
-  const FEE_NOW=0.155, RENT_NOW=70000, RENT_OLD=65000;
-  const init=d.initial_total, payback=T.profit/init;
-  const annualRaw=T.profit*365/T.days;
+function renderPeriod(key){
+  const all=key==="all", p=all?T:DONE.find(m=>m.month===key), label=all?`全期間（開業〜${mo(DONE[DONE.length-1].month)}末）`:ym(key);
+  $("sum-title").textContent=`要点 ― ${label}`;
+  $("sum-lead").textContent=all?`開業から${T.days}日間の実績。`:`${ym(key)}の実績（${p.days}日間）。`;
+  $("sum").innerHTML=[
+    ["売上",man(p.gross),`${p.nights}泊`],
+    ["営業利益",man(p.profit),`営業利益率 ${p.gross?pct(p.profit/p.gross):"—"}`,"key"],
+    ["稼働率",pct(p.occupancy),`${p.days}日のうち${p.nights}泊`],
+    ["1泊の平均単価",p.adr?yen(p.adr):"—","売上 ÷ 泊数"],
+    ["1日あたり売上",yen(p.gross/p.days),"空いている日も含む"],
+    ["1組あたり手取り",p.net_per_turnover?yen(p.net_per_turnover):"—",`${p.stays||0}組の平均`],
+  ].map(fig).join("");
+
+  $("flow-title").textContent=`お金の流れ ― ${label}`;
+  const steps=[["売上（宿泊料）",p.gross,"var(--accent)"],["Airbnb手数料",-p.fee,"var(--cost)"],["家賃",-p.rent,"var(--cost)"],["リネン",-p.linen,"var(--cost)"],
+    ["清掃",-p.cleaning,"var(--cost)"],["光熱・消耗品ほか",-p.other_cost,"var(--cost)"],["営業利益",p.profit,"var(--good)"]];
+  let run=0; const max=Math.max(p.gross,1);
+  $("flow").innerHTML=steps.map(([k,v,c],i)=>{
+    const lastRow=i===steps.length-1; let left,w;
+    if(i===0){left=0;w=v;run=v} else if(lastRow){left=0;w=Math.max(v,0)} else {run+=v;left=Math.max(run,0);w=-v}
+    return `<div class="flow-row${lastRow?" total":""}"><span>${k}</span><div class="track"><i style="left:${left/max*100}%;width:${Math.min(Math.max(w/max*100,.3),100)}%;background:${c}"></i></div><span class="amt ${lastRow&&v<0?"neg":""}">${i&&!lastRow&&v?"−":""}${yen(Math.abs(v))}</span></div>`;
+  }).join("");
+
+  // 月ごとの表で選んだ月を目立たせる
+  document.querySelectorAll("#pl [data-m]").forEach(td=>td.classList.toggle("sel",!all&&td.dataset.m===key));
+
+  const bands=all?D.bands:(p.bands||[]);
+  $("bands-lead").textContent=all?"泊まり終わった予約を人数で分けたもの。":`${ym(key)}にチェックインした予約を人数で分けたもの。`;
+  $("bands").innerHTML=bands.length?`<thead><tr><th>人数</th><th>予約</th><th>1泊の単価</th><th>1組の手取り</th></tr></thead><tbody>`+
+    bands.map(b=>`<tr><td>${b.band}</td><td>${b.bookings}件</td><td>${yen(b.adr)}</td><td>${yen(b.net_per_stay)}</td></tr>`).join("")+`</tbody>`
+    :`<tbody><tr><td>この期間に泊まり終わった予約はありません</td></tr></tbody>`;
+}
+
+function renderStatic(){
+  const d=D, ms=DONE, last=ms[ms.length-1].month;
+  // 投資の回収（常に全期間）
+  const init=d.initial.total, payback=T.profit/init, annualRaw=T.profit*365/T.days;
   const profitNow=T.profit-(T.gross*FEE_NOW-T.fee)-(RENT_NOW-RENT_OLD)*12*T.days/365;
   const annual=profitNow*365/T.days, yld=annual/init, remain=Math.max(init-T.profit,0)/annual;
+  $("inv-lead").textContent=`期間の選択にかかわらず、開業から${ym(last)}末までの累計で見ています。`;
   $("invest").innerHTML=[
-    ["初期投資",man(init),`開業前に使ったお金（開業前の家賃${man(d.initial_rent)}を含む）`],
-    ["営業利益の累計",man(T.profit),`開業〜${lastLabel}（${T.days}日）`,"hero"],
-    ["回収率",pct(payback,1),`初期投資のうち取り戻した割合`,"",`<div class="progress" aria-hidden="true"><i style="width:${Math.min(payback*100,100)}%"></i></div>`],
-    ["年換算利回り（今の条件）",pct(yld),`年${man(annual)}ペース。手数料15.5%・家賃月7万円で計算し直した値（実績そのままなら${pct(annualRaw/init)}）`],
-    ["回収までの見込み",annual>0?`あと約${remain.toFixed(1)}年`:"—",`今の条件で、今の稼働が続いた場合`],
-  ].map(tile).join("");
+    ["初期投資",man(init),`開業前の家賃${man(d.initial.by_cat["地代家賃"]||0)}を含む`],
+    ["営業利益の累計",man(T.profit),`${T.days}日間`,"key"],
+    ["回収率",pct(payback,1),"初期投資のうち取り戻した割合","",`<div class="bar" aria-hidden="true"><i style="width:${Math.min(payback*100,100)}%"></i></div>`],
+    ["年換算利回り（今の条件）",pct(yld),`年${man(annual)}ペース。手数料15.5%・家賃月7万円で計算（実績のままなら${pct(annualRaw/init)}）`],
+    ["回収までの見込み",annual>0?`あと約${remain.toFixed(1)}年`:"—","今の条件で、今の稼働が続いた場合"],
+  ].map(fig).join("");
 
-  // 運営の状態
-  $("ops").innerHTML=[
-    ["稼働率",pct(T.nights/T.days),`${T.days}日のうち${T.nights}泊`],
-    ["1泊の平均単価",yen(T.gross/T.nights),"売上 ÷ 泊数"],
-    ["1日あたり売上",yen(T.gross/T.days),"空いている日も含めた平均"],
-    ["営業利益率",pct(T.profit/T.gross),`売上${man(T.gross)}のうち利益になった割合`],
-    ["1組あたり手取り",T.turn?yen(turnNet/T.turn):"—",`泊まり終わった${T.turn}組の平均`],
-  ].map(tile).join("");
-
-  // 月次グラフ
-  $("pl-title").textContent=`月ごとの収支（開業〜${lastLabel}）`;
-  $("pl-lead").textContent=`${ms.length}か月で売上${man(T.gross)}、営業利益${man(T.profit)}（月平均${man(T.profit/ms.length)}）。`;
-  const W=640,H=230,P={l:46,r:12,t:26,b:30}, n=ms.length, gw=(W-P.l-P.r)/n, bw=Math.min(gw*.3,46);
+  // 月ごとの収支（グラフ＋表）
+  $("pl-lead").textContent=`${ms.length}か月で売上${man(T.gross)}、営業利益${man(T.profit)}（月平均${man(T.profit/ms.length)}）。プルダウンで選んだ月は色がつきます。`;
+  const W=640,H=220,P={l:46,r:12,t:24,b:28}, n=ms.length, gw=(W-P.l-P.r)/n, bw=Math.min(gw*.28,42);
   const top=Math.ceil(Math.max(...ms.map(m=>Math.max(m.net,m.cost)))/100000)*100000||100000;
   const Y=v=>P.t+(1-v/top)*(H-P.t-P.b), base=Y(0);
-  const grid=[0,top/2,top].map(g=>`<line x1="${P.l}" x2="${W-P.r}" y1="${Y(g)}" y2="${Y(g)}" stroke="var(--line)"/><text x="${P.l-6}" y="${Y(g)+4}" text-anchor="end">${g/10000}万</text>`).join("");
+  const grid=[0,top/2,top].map(g=>`<line x1="${P.l}" x2="${W-P.r}" y1="${Y(g)}" y2="${Y(g)}" stroke="var(--rule)"/><text x="${P.l-6}" y="${Y(g)+4}" text-anchor="end">${g/10000}万</text>`).join("");
   const bars=ms.map((m,i)=>{const cx=P.l+gw*i+gw/2;
-    return `<rect x="${cx-bw-2}" y="${Y(m.net)}" width="${bw}" height="${base-Y(m.net)}" rx="3" fill="var(--sea)"><title>${lab(m)} 手取り ${yen(m.net)}</title></rect>
-    <rect x="${cx+2}" y="${Y(m.cost)}" width="${bw}" height="${base-Y(m.cost)}" rx="3" fill="var(--sand)"><title>${lab(m)} 運営費 ${yen(m.cost)}</title></rect>
-    <text x="${cx}" y="${Math.min(Y(m.net),Y(m.cost))-8}" text-anchor="middle" style="fill:${m.profit<0?"var(--bad)":"var(--good)"};font-weight:500">${m.profit<0?"−":"+"}${(Math.abs(m.profit)/10000).toFixed(1)}万</text>
-    <text x="${cx}" y="${H-10}" text-anchor="middle" style="fill:var(--ink);font-family:var(--body);font-size:12px">${lab(m)}</text>`}).join("");
-  $("pl-chart").innerHTML=`<div class="legend"><span><i style="background:var(--sea)"></i>手取り（売上−Airbnb手数料）</span><span><i style="background:var(--sand)"></i>運営費</span><span style="color:var(--good)">上の数字＝営業利益</span></div>
+    return `<rect x="${cx-bw-2}" y="${Y(m.net)}" width="${bw}" height="${base-Y(m.net)}" fill="var(--accent)"><title>${mo(m.month)} 手取り ${yen(m.net)}</title></rect>
+    <rect x="${cx+2}" y="${Y(m.cost)}" width="${bw}" height="${base-Y(m.cost)}" fill="var(--cost)"><title>${mo(m.month)} 運営費 ${yen(m.cost)}</title></rect>
+    <text x="${cx}" y="${Math.min(Y(m.net),Y(m.cost))-7}" text-anchor="middle" style="fill:${m.profit<0?"var(--bad)":"var(--good)"};font-weight:500">${m.profit<0?"−":"+"}${(Math.abs(m.profit)/10000).toFixed(1)}万</text>
+    <text x="${cx}" y="${H-8}" text-anchor="middle" style="fill:var(--ink);font-family:var(--sans);font-size:12px">${mo(m.month)}</text>`}).join("");
+  $("pl-chart").innerHTML=`<div class="legend"><span><i style="background:var(--accent)"></i>手取り</span><span><i style="background:var(--cost)"></i>運営費</span><span style="color:var(--good)">上の数字＝営業利益</span></div>
     <svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:${W}px" role="img" aria-label="月ごとの手取りと運営費">${grid}${bars}</svg>`;
-
-  // 月次表（損益＋運営指標）
-  const cols=[...ms,{...T,month:"合計",occupancy:T.nights/T.days,adr:T.gross/T.nights,net_per_turnover:T.turn?turnNet/T.turn:null}];
+  const cols=[...ms,{...T,month:"合計"}];
   const money=[["売上（宿泊料）","gross",""],["Airbnb手数料","fee","−"],["手取り","net","b"],["家賃","rent","−"],["リネン","linen","−"],["清掃","cleaning","−"],["光熱・消耗品ほか","other_cost","−"],["運営費 計","cost","b−"],["営業利益","profit","p"]];
   const cell=(v,f)=>f==="p"?`<b class="${v<0?"neg":"pos"}">${yen(v)}</b>`:f.includes("b")?`<b>${f.includes("−")&&v?"−":""}${yen(v)}</b>`:`${f==="−"&&v?"−":""}${yen(v)}`;
-  const kpi=[
-    ["営業利益率",c=>c.gross?pct(c.profit/c.gross):"—"],
-    ["稼働率",c=>pct(c.occupancy)],
-    ["泊数",c=>`${c.nights}泊`],
-    ["1泊の平均単価",c=>c.nights?yen(c.gross/c.nights):"—"],
-    ["1日あたり売上",c=>yen(c.gross/c.days)],
-    ["Airbnb手数料率",c=>c.gross?pct(c.fee/c.gross,1):"—"],
-    ["チェックインした組数",c=>`${c.month==="合計"?T.bookings:c.bookings}組`],
-    ["1組あたり手取り",c=>c.net_per_turnover?yen(c.net_per_turnover):"—"],
-  ];
-  const head=cols.map(c=>`<th>${c.month==="合計"?"合計":lab(c)}</th>`).join("");
-  $("pl").innerHTML=`<thead><tr><th></th>${head}</tr></thead><tbody>`+
+  const kpi=[["営業利益率",c=>c.gross?pct(c.profit/c.gross):"—"],["稼働率",c=>pct(c.occupancy)],["泊数",c=>`${c.nights}泊`],["1泊の平均単価",c=>c.nights?yen(c.gross/c.nights):"—"],
+    ["1日あたり売上",c=>yen(c.gross/c.days)],["Airbnb手数料率",c=>c.gross?pct(c.fee/c.gross,1):"—"],["チェックインした組数",c=>`${c.bookings}組`],["1組あたり手取り",c=>c.net_per_turnover?yen(c.net_per_turnover):"—"]];
+  const td=(c,html)=>`<td${c.month!=="合計"?` data-m="${c.month}"`:""}>${html}</td>`;
+  $("pl").innerHTML=`<thead><tr><th></th>${cols.map(c=>`<th${c.month!=="合計"?` data-m="${c.month}"`:""}>${c.month==="合計"?"合計":mo(c.month)}</th>`).join("")}</tr></thead><tbody>`+
     `<tr><td class="grp" colspan="${cols.length+1}">損益</td></tr>`+
-    money.map(([k,key,f])=>{const em=f.includes("b")||f==="p";return `<tr${em?' class="em"':""}><td>${em?`<b>${k}</b>`:k}</td>${cols.map(c=>`<td>${cell(c[key]||0,f)}</td>`).join("")}</tr>`}).join("")+
+    money.map(([k,key,f])=>`<tr${f==="p"?' class="sum"':""}><td>${f.includes("b")||f==="p"?`<b>${k}</b>`:k}</td>${cols.map(c=>td(c,cell(c[key]||0,f))).join("")}</tr>`).join("")+
     `<tr><td class="grp" colspan="${cols.length+1}">運営の指標</td></tr>`+
-    kpi.map(([k,fn])=>`<tr><td>${k}</td>${cols.map(c=>`<td>${fn(c)}</td>`).join("")}</tr>`).join("")+`</tbody>`;
+    kpi.map(([k,fn])=>`<tr><td>${k}</td>${cols.map(c=>td(c,fn(c))).join("")}</tr>`).join("")+`</tbody>`;
+
+  // 立替と精算
+  const tk=d.tatekae, pend=tk.pending.reduce((a,x)=>a+x.amount,0), open=tk.paid-tk.equity-tk.settled;
+  $("tk").innerHTML=[
+    ["立て替えた額の累計",yen(tk.paid),"個人のカード・現金で払った海庭の支出"],
+    ["うち出資として扱う分",yen(tk.equity),"立替の形で出資した分（精算しない）"],
+    ["口座から精算済み",yen(tk.settled),"口座から払い戻した額（戻し入れを差し引き）"],
+    ["未精算の残り",yen(open),pend?`内容確認中の振替${yen(pend)}が精算なら ${yen(open-pend)}`:"",open>0?"key":""],
+  ].map(fig).join("");
+  $("tk-notes").innerHTML=[
+    pend?`口座から運営会社へ振り替えた${tk.pending.map(x=>`${esc(x.date)} ${yen(x.amount)}`).join("・")}は、何の精算かを確認中のため「精算済み」に入れていません。`:"",
+    `精算は口座から運営会社への振替で行っており、振替ごとの内訳の書類はありません。全額を立替の精算として数えています。`,
+    `立替の額は台帳に記帳した額です。領収書の原本と照合済みなのは2026年10月の4件（¥48,063）だけで、それ以前の多くは原本の確認が済んでいません。2026年2月の精算2件（計¥400,000）と、出資扱いの¥750,000も原本未確認です。`,
+    `領収書が届いていない立替は、まだ入っていません。`,
+  ].filter(Boolean).map(s=>`<li>${s}</li>`).join("");
 
   // この先
-  const A=d.ahead||[];
-  $("ahead-lead").textContent=`${esc(d.generated.slice(0,10))}時点で入っている予約だけの数字です。これから予約が増えます。`;
+  const A=d.months.filter(m=>m.status!=="実績").slice(0,4);
+  $("ahead-lead").textContent=`${d.generated.slice(0,10)}時点で入っている予約だけの数字です。これから予約が増えます。`;
   $("ahead").innerHTML=`<thead><tr><th>月</th><th>状態</th><th>泊数</th><th>予約</th><th>売上</th><th>手取り</th></tr></thead><tbody>`+
-    A.map(m=>`<tr><td>${m.month.slice(0,4)}年${+m.month.slice(5)}月</td><td style="font-family:var(--body)">${m.status==="今月"?"今月（途中）":"予約済みの分"}</td><td>${m.nights}泊</td><td>${m.bookings}組</td><td>${yen(m.gross)}</td><td>${yen(m.net)}</td></tr>`).join("")+`</tbody>`;
+    A.map(m=>`<tr><td>${ym(m.month)}</td><td style="font-family:var(--sans)">${m.status==="今月"?"今月（途中）":"予約済みの分"}</td><td>${m.nights}泊</td><td>${m.bookings}組</td><td>${yen(m.gross)}</td><td>${yen(m.net)}</td></tr>`).join("")+`</tbody>`;
+
+  // 集客
+  const v=d.views;
+  $("views-lead").textContent=`Airbnbのページを見た人の数（日別）。直近30日は${v.last30.toLocaleString()}回・予約${v.bookings30}件（予約率 ${pct(v.cvr30,1)}）。縦の点線は施策を入れた日。`;
+  $("views").innerHTML=history(v.daily,d.experiments.filter(e=>e.started));
+  const rows=(d.rank.rows||[]).filter(r=>r.pos!=="booked");
+  $("rank-lead").textContent=`ログインしない状態で「別府市」を検索したときの順位（${d.rank.run}）。目標は6名以上で10位以内。`;
+  const dates=[...new Set(rows.map(r=>r.checkin))].sort(), gs=[...new Set(rows.map(r=>r.guests))].sort((a,b)=>a-b);
+  $("rank").innerHTML=rows.length?`<div class="scroll"><table style="min-width:0"><thead><tr><th>人数</th>${dates.map(c=>`<th>${c.slice(5).replace("-","/")}</th>`).join("")}</tr></thead><tbody>`+
+    gs.map(g=>`<tr><td>${g}名</td>`+dates.map(c=>{const r=rows.find(x=>x.guests===g&&x.checkin===c); if(!r) return `<td>—</td>`;
+      const out=r.pos.startsWith(">"), pos=out?null:parseInt(r.pos), cls=+g<6?"":(out||pos>10)?"neg":"pos";
+      return `<td><span class="${cls}">${out?"圏外":pos+"位"}</span></td>`}).join("")+`</tr>`).join("")+`</tbody></table></div>`
+    :`<p class="lead">先の土曜は予約で埋まっていて、計測できる日がありません。</p>`;
+  const chip=e=>e.status==="queued"?`<span class="chip">予定 ${esc((e.planned||"").slice(5).replace("-","/"))}〜</span>`
+    :e.verdict==="伸びた"?`<span class="chip good">効いた</span>`:e.verdict==="落ちた"?`<span class="chip bad">逆効果</span>`:e.verdict==="差なし"?`<span class="chip">差なし</span>`:`<span class="chip run">計測中</span>`;
+  $("exps").innerHTML=`<thead><tr><th>施策</th><th style="text-align:left">内容</th><th>開始</th><th>結果</th></tr></thead><tbody>`+
+    d.experiments.map(e=>`<tr><td>${esc(e.id)}</td><td class="wrap">${esc(e.title)}${e.detail?`<br><small style="color:var(--muted)">${esc(e.detail)}</small>`:""}</td><td>${e.started?esc(e.started.slice(5).replace("-","/")):"—"}</td><td>${chip(e)}</td></tr>`).join("")+`</tbody>`;
+
+  // 初期投資
+  $("init-lead").textContent=`初期投資 ${yen(init)} の科目別の内訳（台帳に記帳した額）。`;
+  $("init").innerHTML=`<tbody>`+Object.entries(d.initial.by_cat).map(([k,n])=>`<tr><td>${esc(k)}</td><td>${yen(n)}</td><td style="color:var(--faint)">${pct(n/init)}</td></tr>`).join("")+
+    `<tr class="sum"><td>合計</td><td>${yen(init)}</td><td></td></tr></tbody>`;
 
   $("notes").innerHTML=[
-    `実績は開業日（${esc(d.opening)}）から${lastLabel}まで。7月は${ms[0].days}日分です。夏休み（7〜8月）を含むため、年換算の数字は冬の閑散期が入ると下がる見込みです。`,
+    `実績は開業日（${esc(d.opening)}）から${ym(last)}末まで。7月は${ms[0].days}日分です。夏休み（7〜8月）を含むため、年換算の数字は冬の閑散期が入ると下がる見込みです。`,
+    `年換算利回りと回収見込みは、Airbnb手数料を全予約15.5%、家賃を2027年1月からの月¥70,000に置き換えて計算した目安です。`,
     `一度きりの大きな支出を含む月があります：7月 トイレ修理 ¥51,920／8月 掃除機などの備品 ¥45,108／10月 使い捨て歯ブラシ2000セット ¥30,800（数年分を一括で計上）と玄関の電子錠 ¥11,386。`,
-    `営業利益は手元の現金とは一致しません（入金の時期のずれ・未計上の費用があるため）。`,
-    `電気・水道・ネット代と、内容を確認中の支出はまだ入っていません。営業利益・回収率・利回りは実際より高めに出ています。`,
-    `Airbnbの手数料は9/16以降の予約から3%→15.5%に上がりました。10月以降の手数料率が高いのはこのためです。`,
-    `売上は泊まった日で月に割り振っています。家賃は契約額の日割り、リネンは単価表からの計算、清掃は10月から1回¥2,500です。`,
-    `年換算利回りと回収見込みは、実績期間（夏休みを含む${T.days}日）を1年に引き延ばした目安です。Airbnb手数料は全予約15.5%、家賃は2027年1月からの月¥70,000に置き換えて計算しています。冬の閑散期と未計上の電気・水道・ネット代が入ると、さらに下がります。`,
-    `初期投資は台帳に記帳した額です。請求書・通帳と照合済みなのは電気工事（¥1,167,100）と家賃の一部だけで、改装工事・家具などの多くは原本の確認が済んでいません。開業前の家賃${yen(d.initial_rent)}（約10か月分）を含みます。`,
+    `電気・水道・ネット代と、内容を確認中の支出（${yen(d.unconfirmed_total)}）はまだ入っていません。営業利益・回収率・利回りは実際より高めに出ています。`,
+    `Airbnbの手数料は9/16以降の予約から3%→15.5%に上がりました。家賃は契約額の日割り、リネンは単価表からの計算、清掃は10月から1回¥2,500です。`,
+    `初期投資は台帳に記帳した額です。請求書・通帳と照合済みなのは電気工事（¥1,167,100）と家賃の一部だけで、改装工事・家具などの多くは原本の確認が済んでいません。`,
+    `口座の記帳は${esc(d.ledger_until)}まで。`,
   ].map(s=>`<li>${s}</li>`).join("");
 }
+
+function history(daily,exps){
+  const W=1000,H=200,P={l:36,r:14,t:16,b:28};
+  if(!daily.length) return "";
+  const t0=new Date(daily[0][0]).getTime(), t1=new Date(daily[daily.length-1][0]).getTime(), span=Math.max(t1-t0,864e5);
+  const X=s=>P.l+(new Date(s).getTime()-t0)/span*(W-P.l-P.r);
+  const max=Math.max(...daily.map(x=>x[1]),10), top=Math.ceil(max/20)*20, Y=v=>P.t+(1-v/top)*(H-P.t-P.b);
+  const pts=daily.map(x=>`${X(x[0]).toFixed(1)},${Y(x[1]).toFixed(1)}`).join(" ");
+  const grid=[0,top/2,top].map(g=>`<line x1="${P.l}" x2="${W-P.r}" y1="${Y(g)}" y2="${Y(g)}" stroke="var(--rule)"/><text x="${P.l-6}" y="${Y(g)+4}" text-anchor="end">${g}</text>`).join("");
+  const marks=exps.filter(e=>e.started>=daily[0][0]&&e.started<=daily[daily.length-1][0]).map(e=>{const x=X(e.started);
+    return `<line x1="${x}" x2="${x}" y1="${P.t}" y2="${H-P.b}" stroke="var(--cost)" stroke-width="1.5" stroke-dasharray="4 3"/><text x="${x+4}" y="${P.t+10}" style="fill:var(--cost)">${esc(e.id)}</text>`}).join("");
+  const n=daily.length-1, idx=[...new Set([0,Math.round(n/3),Math.round(2*n/3),n])];
+  const lbl=idx.map(i=>`<text x="${X(daily[i][0])}" y="${H-8}" text-anchor="${i===0?"start":i===n?"end":"middle"}">${daily[i][0].slice(5).replace("-","/")}</text>`).join("");
+  return `<div class="scroll"><svg viewBox="0 0 ${W} ${H}" width="100%" style="min-width:560px" role="img" aria-label="日別の閲覧数と施策">${grid}
+    <polygon points="${X(daily[0][0])},${Y(0)} ${pts} ${X(daily[n][0])},${Y(0)}" fill="var(--accent-soft)"/>
+    <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="1.8"/>${marks}${lbl}</svg></div>`;
+}
+
 fetch("data.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(render)
   .catch(e=>{$("stamp").innerHTML=`<span class="err">数字を読み込めませんでした（${esc(e.message)}）</span>`});
 </script>
