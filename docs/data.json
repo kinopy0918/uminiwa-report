@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15 17:22",
+ "generated": "2026-11-15 21:11",
  "opening": "2026-07-16",
  "ledger_until": "2026-11-05",
  "initial": {
@@ -2490,6 +2490,15 @@
    }
   },
   "line_sheet": "https://docs.google.com/spreadsheets/d/1oQSLwz6SPHM2JBoU3BDCg4Sr8qXaVegUV48a5CTFiRE/edit"
+ },
+ "cash": {
+  "bank": 167246,
+  "bank_date": "2026/11/05",
+  "held": 124473,
+  "incoming": 77740,
+  "incoming_dates": [
+   "2026-11-20"
+  ]
  },
  "unconfirmed_total": 0
 }

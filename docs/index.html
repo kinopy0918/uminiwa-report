@@ -138,6 +138,10 @@ dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
 .btn{font-size:12.5px;font-weight:600;color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:4px 10px;white-space:nowrap}
 .btn:hover{background:var(--accent-soft)}
 #tk{grid-template-columns:repeat(4,minmax(0,1fr))}
+#cash{grid-template-columns:repeat(6,minmax(0,1fr))}
+@media (max-width:1200px){#cash{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:620px){#cash{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#cash .fig .v{font-size:20px}
 @media (max-width:900px){#tk{grid-template-columns:repeat(2,minmax(0,1fr))}}
 #v-tatekae .row{align-items:start}
 #tk-month td small{font-size:11px}
@@ -152,7 +156,7 @@ dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
   <div class="logo"><i></i><span>海庭<small>UMINIWA · BEPPU</small></span></div>
   <a href="#overview" data-view="overview" class="on">概要</a>
   <a href="#monthly" data-view="monthly">月ごとの収支</a>
-  <a href="#tatekae" data-view="tatekae">立替と精算</a>
+  <a href="#tatekae" data-view="tatekae">現預金と立替</a>
   <a href="#marketing" data-view="marketing">集客</a>
   <a href="#initial" data-view="initial">初期投資と注記</a>
   <div class="foot" id="foot"></div>
@@ -205,6 +209,12 @@ dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
   </section>
   </div>
   <div class="view" id="v-tatekae">
+  <section class="block" id="s-cash">
+    <h2>現預金</h2>
+    <p class="lead" id="cash-lead"></p>
+    <div class="figs" id="cash"></div>
+    <ul class="notes" id="cash-notes"></ul>
+  </section>
   <section class="block" id="s-tk">
     <h2>出資と立替<a class="btn" id="tk-link" href="#" target="_blank" rel="noopener">経費スプレッドシートを開く ↗</a></h2>
     <p class="lead">出資はキノシタ・ハセガワ・クワバラ・カナザワの4名がそれぞれ75万円。備品などの買い物はLINE「海庭｜領収書」に送った領収書から経費に計上し、立て替えた人に口座から精算しています。</p>
@@ -405,6 +415,25 @@ function renderStatic(){
     `<tr><td class="grp" colspan="${cols.length+1}">運営の指標</td></tr>`+
     kpi.map(([k,fn])=>`<tr><td>${k}</td>${cols.map(c=>td(c,fn(c))).join("")}</tr>`).join("")+`</tbody>`;
 
+  // 現預金：口座の残高＋個人口座に届いたAirbnb入金（まだ移していない分）。立替の未精算はこれから払うお金
+  const C=d.cash;
+  if(C){
+    const own=C.bank+C.held, tkOpen=d.tatekae.people.reduce((a,p)=>a+Math.max(p.open,0),0), net=own-tkOpen;
+    $("cash-lead").textContent=`海庭の口座の残高は ${esc(C.bank_date)} の取引まで記帳した通帳の金額です。`;
+    $("cash").innerHTML=[
+      ["海庭の口座",yen(C.bank),`${esc(C.bank_date)} 時点`],
+      ["キノシタの口座で預かり中",yen(C.held),"Airbnbから届いて、まだ海庭の口座に移していない額"],
+      ["現預金の合計",yen(own),"上の2つの合計","key"],
+      ["これから届くAirbnb入金",yen(C.incoming),C.incoming_dates.length?`${C.incoming_dates.map(x=>esc(x.slice(5).replace("-","/"))).join("・")} 着金予定`:"なし"],
+      ["立替の未精算（これから払う）",yen(tkOpen),"下の「未精算の合計」と同じ"],
+      ["差し引き",yen(net),`現預金−未精算。届く予定の入金を足すと ${yen(net+C.incoming)}`],
+    ].map(fig).join("");
+    $("cash-notes").innerHTML=[
+      `Airbnbの売上はいったんキノシタの個人口座に入り、まとめて海庭の口座に移しています。そのため「預かり中」の額があります。`,
+      `「預かり中」＝Airbnbの送金のうち着金日を過ぎた合計から、海庭の口座に入ったAirbnbの売上を引いた額です。`,
+      `「差し引き」は今ある現預金と立替の未精算だけの比較です。これからの家賃・電気水道・ネット代などの支払いと、これからの売上は含みません。`,
+    ].map(s=>`<li>${s}</li>`).join("");
+  }
   // 出資と立替
   const tk=d.tatekae, ppl=tk.people, openAll=ppl.reduce((a,p)=>a+Math.max(p.open,0),0), lines=tk.line;
   $("tk-link").href=tk.line_sheet;

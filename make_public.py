@@ -34,6 +34,7 @@ out = {
     "rank": d["rank"],
     "experiments": [{k: e.get(k) for k in ("id", "title", "status", "started", "planned", "days", "verdict", "detail")} for e in d["experiments"]],
     "tatekae": mask_tatekae(d["tatekae"]),
+    "cash": d.get("cash"),
     "unconfirmed_total": sum(u["amount"] for u in d.get("unconfirmed", [])),
 }
 json.dump(out, open(dst, "w"), ensure_ascii=False, indent=1)
