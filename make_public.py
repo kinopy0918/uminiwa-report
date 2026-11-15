@@ -6,15 +6,16 @@ src, dst = sys.argv[1], sys.argv[2]
 d = json.load(open(src))
 keep = ("month", "status", "days", "nights", "bookings", "occupancy", "adr", "gross", "fee", "net",
         "rent", "internet", "linen", "cleaning", "other_cost", "cost", "profit")
-def mask(name):
-    """公開ページでは立替者を「姓の1文字目＋〇」にする（例：樹〇）。名前の一覧はリンク先の経費シート（権限のある人だけ）で見る"""
-    return (name[:1] + "〇") if name else "不明"
-
-
 def mask_tatekae(t):
+    """公開ページでは立替者をカタカナの苗字にする（2026-11-15 本人「カタカナで身内だけ」）。店名は出さない"""
+    kana = t.get("kana", {})
+    k = lambda n: kana.get(n, "その他")
     t = dict(t)
-    t["people"] = [dict(p, name=mask(p["name"])) for p in t["people"]]
-    t["line"] = None if t.get("line") is None else [{**{k: v for k, v in i.items() if k != "store"}, "payer": mask(i["payer"]), "status": i["status"].replace("樹下さん", "樹〇さん")} for i in t["line"]]  # 店名は出さない（業者名は公開しない約束）
+    t["people"] = [dict(p, name=k(p["name"])) for p in t["people"]]
+    t["equity_people"] = [dict(e, name=k(e["name"])) for e in t.get("equity_people", [])]
+    t["monthly"] = {m: {k(n): v for n, v in x.items()} for m, x in t.get("monthly", {}).items()}
+    t["line"] = None if t.get("line") is None else [{**{a: v for a, v in i.items() if a != "store"}, "payer": k(i["payer"])} for i in t["line"]]
+    t.pop("kana", None)
     return t
 
 

@@ -1,18 +1,18 @@
 {
- "generated": "2026-11-15 16:40",
+ "generated": "2026-11-15 16:53",
  "opening": "2026-07-16",
  "ledger_until": "2026-11-05",
  "initial": {
-  "total": 3439502,
+  "total": 3477193,
   "by_cat": {
    "修繕費": 1667677,
    "消耗品費": 1009554,
    "地代家賃": 681452,
    "光熱費": 45792,
+   "通信費": 43504,
    "リネン費": 10450,
    "車両費": 7396,
    "荷造運賃": 6330,
-   "通信費": 5813,
    "接待交際費": 3400,
    "支払手数料": 1638
   }
@@ -2031,30 +2031,67 @@
  "tatekae": {
   "equity": 3000000,
   "equity_n": 4,
-  "people": [
+  "equity_people": [
    {
-    "name": "樹〇",
-    "paid": 2354195,
-    "settled": 1287577,
-    "equity_in_kind": 750000,
-    "open": 316618
+    "name": "キノシタ",
+    "amount": 750000,
+    "dates": [],
+    "how": "立替の形で拠出"
    },
    {
-    "name": "長〇",
+    "name": "ハセガワ",
+    "amount": 750000,
+    "dates": [
+     "2026/02/24",
+     "2026/03/31",
+     "2026/04/24"
+    ],
+    "how": "口座へ入金"
+   },
+   {
+    "name": "クワバラ",
+    "amount": 750000,
+    "dates": [
+     "2026/01/30",
+     "2026/02/27"
+    ],
+    "how": "口座へ入金"
+   },
+   {
+    "name": "カナザワ",
+    "amount": 750000,
+    "dates": [
+     "2026/01/30",
+     "2026/04/01",
+     "2026/05/21"
+    ],
+    "how": "口座へ入金"
+   }
+  ],
+  "people": [
+   {
+    "name": "キノシタ",
+    "paid": 2412325,
+    "settled": 1287577,
+    "equity_in_kind": 750000,
+    "open": 374748
+   },
+   {
+    "name": "ハセガワ",
     "paid": 8826,
     "settled": 8826,
     "equity_in_kind": 0,
     "open": 0
    },
    {
-    "name": "桑〇",
+    "name": "クワバラ",
     "paid": 31463,
     "settled": 31463,
     "equity_in_kind": 0,
     "open": 0
    },
    {
-    "name": "金〇",
+    "name": "カナザワ",
     "paid": 7879,
     "settled": 0,
     "equity_in_kind": 0,
@@ -2066,25 +2103,25 @@
     "date": "2026/05/17",
     "what": "水道料金（令和8年4月分）",
     "amount": 2322,
-    "payer": "樹〇",
+    "payer": "キノシタ",
     "in_ledger": true,
     "via_bank": false,
-    "status": "樹〇さんの立替に合算"
+    "status": "本人の立替に合算"
    },
    {
     "date": "2026/07/12",
     "what": "ラベル用テープ・軽量モンキーレンチ購入",
     "amount": 2596,
-    "payer": "樹〇",
+    "payer": "キノシタ",
     "in_ledger": true,
     "via_bank": false,
-    "status": "樹〇さんの立替に合算"
+    "status": "本人の立替に合算"
    },
    {
     "date": "2026/07/12",
     "what": "水廻り用品・洗剤・紙袋",
     "amount": 3588,
-    "payer": "長〇",
+    "payer": "ハセガワ",
     "in_ledger": true,
     "via_bank": false,
     "status": "精算済み"
@@ -2093,16 +2130,16 @@
     "date": "2026/07/14",
     "what": "収納ボックス・ランドリーバスケット等日用雑貨",
     "amount": 11966,
-    "payer": "樹〇",
+    "payer": "キノシタ",
     "in_ledger": true,
     "via_bank": false,
-    "status": "樹〇さんの立替に合算"
+    "status": "本人の立替に合算"
    },
    {
     "date": "2026/07/15",
     "what": "表示錠レバー・コーナータップ",
     "amount": 5238,
-    "payer": "長〇",
+    "payer": "ハセガワ",
     "in_ledger": true,
     "via_bank": false,
     "status": "精算済み"
@@ -2111,7 +2148,7 @@
     "date": "2026/07/15",
     "what": "日用品・清掃用品まとめ買い",
     "amount": 17410,
-    "payer": "桑〇",
+    "payer": "クワバラ",
     "in_ledger": true,
     "via_bank": false,
     "status": "精算済み"
@@ -2120,7 +2157,7 @@
     "date": "2026/07/15",
     "what": "指定ゴミ袋・資源袋・レジ袋・麦茶",
     "amount": 923,
-    "payer": "桑〇",
+    "payer": "クワバラ",
     "in_ledger": true,
     "via_bank": false,
     "status": "精算済み"
@@ -2129,25 +2166,25 @@
     "date": "2026/07/18",
     "what": "電気料金（2026年6月分・使用109kWh）",
     "amount": 4762,
-    "payer": "樹〇",
+    "payer": "キノシタ",
     "in_ledger": true,
     "via_bank": false,
-    "status": "樹〇さんの立替に合算"
+    "status": "本人の立替に合算"
    },
    {
     "date": "2026/08/07",
     "what": "電気料金(2026年7月分)コンビニ払込",
     "amount": 11144,
-    "payer": "樹〇",
+    "payer": "キノシタ",
     "in_ledger": true,
     "via_bank": false,
-    "status": "樹〇さんの立替に合算"
+    "status": "本人の立替に合算"
    },
    {
     "date": "2026/08/09",
     "what": "日用品・掃除用品まとめ買い",
     "amount": 7270,
-    "payer": "桑〇",
+    "payer": "クワバラ",
     "in_ledger": true,
     "via_bank": false,
     "status": "精算済み"
@@ -2156,7 +2193,7 @@
     "date": "2026/08/09",
     "what": "シャンプー・ボディソープ等日用品",
     "amount": 5860,
-    "payer": "桑〇",
+    "payer": "クワバラ",
     "in_ledger": true,
     "via_bank": false,
     "status": "精算済み"
@@ -2165,7 +2202,7 @@
     "date": "2026/08/19",
     "what": "ガス料金利用明細",
     "amount": 1409,
-    "payer": "樹〇",
+    "payer": "キノシタ",
     "in_ledger": true,
     "via_bank": true,
     "status": "口座払い"
@@ -2174,34 +2211,34 @@
     "date": "2026/09/14",
     "what": "水道料金 令和8年8月分",
     "amount": 2504,
-    "payer": "樹〇",
+    "payer": "キノシタ",
     "in_ledger": true,
     "via_bank": false,
-    "status": "樹〇さんの立替に合算"
+    "status": "本人の立替に合算"
    },
    {
     "date": "2026/09/14",
     "what": "水道料金（令和08年06月分）",
     "amount": 2322,
-    "payer": "樹〇",
+    "payer": "キノシタ",
     "in_ledger": true,
     "via_bank": false,
-    "status": "樹〇さんの立替に合算"
+    "status": "本人の立替に合算"
    },
    {
     "date": "2026/09/17",
     "what": "BBQコンロ・ステンレストング購入",
     "amount": 5341,
-    "payer": "樹〇",
+    "payer": "キノシタ",
     "in_ledger": true,
     "via_bank": false,
-    "status": "樹〇さんの立替に合算"
+    "status": "本人の立替に合算"
    },
    {
     "date": "2026/09/17",
     "what": "LPガス利用明細（9月分・基本料金等）",
     "amount": 2046,
-    "payer": "樹〇",
+    "payer": "キノシタ",
     "in_ledger": true,
     "via_bank": true,
     "status": "口座払い"
@@ -2210,30 +2247,142 @@
     "date": "2026/09/21",
     "what": "電気料金の支払い",
     "amount": 36687,
-    "payer": "樹〇",
+    "payer": "キノシタ",
     "in_ledger": true,
     "via_bank": false,
-    "status": "樹〇さんの立替に合算"
+    "status": "本人の立替に合算"
    },
    {
     "date": "2026/10/10",
     "what": "電気料金のPayPay支払い",
     "amount": 11259,
-    "payer": "樹〇",
+    "payer": "キノシタ",
     "in_ledger": true,
     "via_bank": false,
-    "status": "樹〇さんの立替に合算"
+    "status": "本人の立替に合算"
    },
    {
     "date": "2026/10/19",
     "what": "ローラーキット・水性塗料・両面テープ等",
     "amount": 7879,
-    "payer": "金〇",
+    "payer": "カナザワ",
     "in_ledger": true,
     "via_bank": false,
     "status": "未精算"
    }
   ],
+  "monthly": {
+   "2025-09": {
+    "キノシタ": {
+     "paid": 80990,
+     "settled": 0
+    }
+   },
+   "2025-10": {
+    "キノシタ": {
+     "paid": 122282,
+     "settled": 0
+    }
+   },
+   "2025-11": {
+    "キノシタ": {
+     "paid": 73629,
+     "settled": 0
+    }
+   },
+   "2025-12": {
+    "キノシタ": {
+     "paid": 226834,
+     "settled": 0
+    }
+   },
+   "2026-01": {
+    "キノシタ": {
+     "paid": 571390,
+     "settled": 0
+    }
+   },
+   "2026-02": {
+    "キノシタ": {
+     "paid": 310210,
+     "settled": 400000
+    }
+   },
+   "2026-03": {
+    "キノシタ": {
+     "paid": 338973,
+     "settled": 0
+    }
+   },
+   "2026-04": {
+    "キノシタ": {
+     "paid": 38843,
+     "settled": 0
+    }
+   },
+   "2026-05": {
+    "キノシタ": {
+     "paid": 5813,
+     "settled": 0
+    }
+   },
+   "2026-06": {
+    "キノシタ": {
+     "paid": 12897,
+     "settled": 587577
+    }
+   },
+   "2026-07": {
+    "キノシタ": {
+     "paid": 462183,
+     "settled": -100000
+    },
+    "ハセガワ": {
+     "paid": 8826,
+     "settled": 0
+    },
+    "クワバラ": {
+     "paid": 18333,
+     "settled": 0
+    }
+   },
+   "2026-08": {
+    "キノシタ": {
+     "paid": 91992,
+     "settled": 0
+    },
+    "クワバラ": {
+     "paid": 13130,
+     "settled": 0
+    }
+   },
+   "2026-09": {
+    "キノシタ": {
+     "paid": 22413,
+     "settled": 0
+    }
+   },
+   "2026-10": {
+    "キノシタ": {
+     "paid": 53876,
+     "settled": 400000
+    },
+    "カナザワ": {
+     "paid": 7879,
+     "settled": 0
+    },
+    "ハセガワ": {
+     "paid": 0,
+     "settled": 8826
+    }
+   },
+   "2026-11": {
+    "クワバラ": {
+     "paid": 0,
+     "settled": 31463
+    }
+   }
+  },
   "line_sheet": "https://docs.google.com/spreadsheets/d/1oQSLwz6SPHM2JBoU3BDCg4Sr8qXaVegUV48a5CTFiRE/edit"
  },
  "unconfirmed_total": 0

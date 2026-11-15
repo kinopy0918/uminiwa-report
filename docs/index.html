@@ -140,6 +140,8 @@ dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
 #tk{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media (max-width:900px){#tk{grid-template-columns:repeat(2,minmax(0,1fr))}}
 #v-tatekae .row{align-items:start}
+#tk-month td small{font-size:11px}
+#tk-month tfoot td{border-top:1px solid var(--ink);font-weight:600}
 </style>
 </head>
 <body>
@@ -203,20 +205,30 @@ dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
   <div class="view" id="v-tatekae">
   <section class="block" id="s-tk">
     <h2>出資と立替<a class="btn" id="tk-link" href="#" target="_blank" rel="noopener">経費スプレッドシートを開く ↗</a></h2>
-    <p class="lead">出資は4名がそれぞれ75万円。備品などの買い物はLINE「海庭｜領収書」に送った領収書から経費に計上し、立て替えた人に口座から精算しています。</p>
+    <p class="lead">出資はキノシタ・ハセガワ・クワバラ・カナザワの4名がそれぞれ75万円。備品などの買い物はLINE「海庭｜領収書」に送った領収書から経費に計上し、立て替えた人に口座から精算しています。</p>
     <div class="figs" id="tk"></div>
   </section>
   <div class="row even">
+  <section class="block" id="s-tk-equity">
+    <h2>出資者ごとの出資</h2>
+    <p class="lead">4名がそれぞれ¥750,000。</p>
+    <div class="scroll"><table id="tk-equity" style="min-width:380px"></table></div>
+  </section>
   <section class="block" id="s-tk-people">
     <h2>立て替えた人ごとの残り</h2>
     <p class="lead">未精算＝これから口座から払い戻す額。</p>
     <div class="scroll"><table id="tk-people" style="min-width:420px"></table></div>
   </section>
+  </div>
+  <section class="block" id="s-tk-month">
+    <h2>いつ・いくら立て替えたか<span class="lead" style="margin:0">月ごと・立て替えた人ごと</span></h2>
+    <p class="lead">立替＝その月に立て替えた額。精算＝その月に口座から払い戻した額（マイナスは戻し入れ）。未精算の残り＝その月末までの累計で、まだ払い戻していない額（キノシタさんは出資分の75万円を除く）。</p>
+    <div class="scroll"><table id="tk-month"></table></div>
+  </section>
   <section class="block" id="s-tk-notes">
     <h2>見方と注意点</h2>
     <ul class="notes" id="tk-notes" style="margin-top:4px"></ul>
   </section>
-  </div>
   <section class="block" id="s-tk-list">
     <h2>LINEで計上した立替の一覧<span class="lead" id="tk-count" style="margin:0"></span></h2>
     <div class="scroll"><table id="tk-list"></table></div>
@@ -393,17 +405,31 @@ function renderStatic(){
     ["精算済み",yen(ppl.reduce((a,p)=>a+p.settled,0)),"口座から払い戻した額"],
     ["未精算の合計",yen(openAll),`${ppl.filter(p=>p.open>0).length}名に払い戻し待ち`,openAll>0?"key":""],
   ].map(fig).join("");
+  $("tk-equity").innerHTML=`<thead><tr><th>出資者</th><th>出資額</th><th style="text-align:left">入金日</th><th style="text-align:left">出し方</th></tr></thead><tbody>`+
+    (tk.equity_people||[]).map(e=>`<tr><td>${esc(e.name)}</td><td>${yen(e.amount)}</td><td style="text-align:left">${e.dates.length?e.dates.map(x=>esc(x.slice(2))).join("・"):"—"}</td><td style="text-align:left">${esc(e.how)}</td></tr>`).join("")+
+    `</tbody><tfoot><tr class="sum"><td>合計</td><td>${yen(tk.equity)}</td><td></td><td></td></tr></tfoot>`;
   $("tk-people").innerHTML=`<thead><tr><th>立て替えた人</th><th>立て替えた額</th><th>うち出資分</th><th>精算済み</th><th>未精算</th></tr></thead><tbody>`+
     ppl.map(p=>`<tr><td>${esc(p.name)}</td><td>${yen(p.paid)}</td><td>${p.equity_in_kind?yen(p.equity_in_kind):"—"}</td><td>${yen(p.settled)}</td><td class="${p.open>0?"neg":""}"><b>${yen(p.open)}</b></td></tr>`).join("")+`</tbody>`;
-  const st=s=>s==="精算済み"?`<span class="chip good">精算済み</span>`:s==="未精算"?`<span class="chip bad">未精算</span>`:s==="口座払い"?`<span class="chip">口座払い</span>`:`<span class="chip run">${esc(s)}</span>`;
+  // 月ごと・人ごとの立替と精算
+  const MM=tk.monthly||{}, names=ppl.map(p=>p.name), months=Object.keys(MM).sort();
+  const run={}; names.forEach(n=>run[n]=0);
+  const eq=n=>(ppl.find(p=>p.name===n)||{}).equity_in_kind||0;
+  const cellTk=(x)=>x&&(x.paid||x.settled)?`${x.paid?yen(x.paid):""}${x.settled?`<br><small class="${x.settled>0?"pos":"neg"}">精算 ${x.settled>0?"−":"+"}${yen(Math.abs(x.settled))}</small>`:""}`:`<span style="color:var(--faint)">—</span>`;
+  const bodyM=months.map(m=>{names.forEach(n=>{const x=(MM[m]||{})[n]; if(x) run[n]+=x.paid-x.settled});
+    const left=names.reduce((a,n)=>a+Math.max(run[n]-eq(n),0),0), paidM=names.reduce((a,n)=>a+(((MM[m]||{})[n]||{}).paid||0),0);
+    return `<tr><td>${ym(m)}</td>${names.map(n=>`<td>${cellTk((MM[m]||{})[n])}</td>`).join("")}<td><b>${yen(paidM)}</b></td><td>${yen(left)}</td></tr>`}).join("");
+  $("tk-month").innerHTML=`<thead><tr><th>月</th>${names.map(n=>`<th>${esc(n)}</th>`).join("")}<th>その月の立替</th><th>未精算の残り</th></tr></thead><tbody>${bodyM}</tbody>`+
+    `<tfoot><tr class="sum"><td>合計</td>${ppl.map(p=>`<td>${yen(p.paid)}<br><small>精算 ${yen(p.settled)}</small></td>`).join("")}<td>${yen(ppl.reduce((a,p)=>a+p.paid,0))}</td><td>${yen(openAll)}</td></tr></tfoot>`;
+  const st=s=>s==="精算済み"?`<span class="chip good">精算済み</span>`:s==="未精算"?`<span class="chip bad">未精算</span>`:s==="口座払い"?`<span class="chip">口座払い</span>`:`<span class="chip run">${s==="本人の立替に合算"?"キノシタさんの立替に合算":esc(s)}</span>`;
   if(lines){
     $("tk-count").textContent=`${lines.length}件・${yen(lines.reduce((a,i)=>a+i.amount,0))}`;
     $("tk-list").innerHTML=`<thead><tr><th>日付</th><th style="text-align:left">内容</th><th>金額</th><th>立て替えた人</th><th>精算</th><th>台帳</th></tr></thead><tbody>`+
       lines.slice().reverse().map(i=>`<tr><td>${esc(i.date.slice(5))}</td><td class="wrap" style="min-width:14em">${esc(i.what)}</td><td>${yen(i.amount)}</td><td>${esc(i.payer)}</td><td>${st(i.status)}</td><td>${i.in_ledger?"反映済み":`<span class="chip bad">未反映</span>`}</td></tr>`).join("")+`</tbody>`;
   } else $("tk-list").innerHTML=`<tbody><tr><td>経費スプレッドシートを読めませんでした。右上のリンクから直接開いてください。</td></tr></tbody>`;
   $("tk-notes").innerHTML=[
-    `樹〇さんは出資の75万円を、口座に入れずに海庭の支払いを立て替える形で出しています。そのため「立て替えた額」から75万円を出資分として差し引いています。`,
-    `樹〇さんへの精算は口座から運営会社への振替で行っており、振替ごとの内訳の書類はありません。全額を立替の精算として数えています。`,
+    `キノシタさんは出資の75万円を、口座に入れずに海庭の支払いを立て替える形で出しています。そのため「立て替えた額」から75万円を出資分として差し引いています。`,
+    `インターネット代（月¥5,813）はキノシタさんが払っているため、2026年1月から終わった月まで毎月の立替に入れています（帳簿の行ではなく固定額）。`,
+    `キノシタさんへの精算は口座から運営会社への振替で行っており、振替ごとの内訳の書類はありません。全額を立替の精算として数えています。`,
     `ほかの方への精算は、口座からの振込と領収書の金額が一致したものを「精算済み」にしています。`,
     `「口座払い」は口座から引き落とされた支払いの明細で、立替ではありません。「未反映」は帳簿にまだ入っていない領収書です。`,
     `電気・水道は使った月の経費にしています（支払った月とは最大3か月ずれます）。`,
