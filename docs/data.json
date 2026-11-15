@@ -1,0 +1,123 @@
+{
+ "generated": "2026-11-15 15:49",
+ "opening": "2026-07-16",
+ "ledger_until": "2026-11-05",
+ "initial_total": 3377231,
+ "initial_rent": 681452,
+ "months": [
+  {
+   "month": "2026-07",
+   "days": 16,
+   "nights": 8,
+   "bookings": 3,
+   "occupancy": 0.5,
+   "adr": 24000.0,
+   "gross": 192000,
+   "fee": 5760,
+   "net": 186240,
+   "rent": 33548,
+   "linen": 9520,
+   "cleaning": 0,
+   "other_cost": 62879,
+   "cost": 105948,
+   "profit": 80292,
+   "turn_stays": 3,
+   "net_per_turnover": 69840.0,
+   "guests": 14
+  },
+  {
+   "month": "2026-08",
+   "days": 31,
+   "nights": 11,
+   "bookings": 7,
+   "occupancy": 0.3548387096774194,
+   "adr": 28363.636363636364,
+   "gross": 312000,
+   "fee": 9360,
+   "net": 302640,
+   "rent": 65000,
+   "linen": 40606,
+   "cleaning": 0,
+   "other_cost": 49136,
+   "cost": 154742,
+   "profit": 147898,
+   "turn_stays": 7,
+   "net_per_turnover": 39908.57142857143,
+   "guests": 60
+  },
+  {
+   "month": "2026-09",
+   "days": 30,
+   "nights": 4,
+   "bookings": 4,
+   "occupancy": 0.13333333333333333,
+   "adr": 41500.0,
+   "gross": 166000,
+   "fee": 4980,
+   "net": 161020,
+   "rent": 65000,
+   "linen": 20603,
+   "cleaning": 0,
+   "other_cost": 1609,
+   "cost": 87212,
+   "profit": 73808,
+   "turn_stays": 4,
+   "net_per_turnover": 40255.0,
+   "guests": 31
+  },
+  {
+   "month": "2026-10",
+   "days": 31,
+   "nights": 7,
+   "bookings": 5,
+   "occupancy": 0.22580645161290322,
+   "adr": 36485.71428571428,
+   "gross": 255400,
+   "fee": 32087,
+   "net": 223313,
+   "rent": 65000,
+   "linen": 19587,
+   "cleaning": 10000,
+   "other_cost": 50309,
+   "cost": 144896,
+   "profit": 78417,
+   "turn_stays": 5,
+   "net_per_turnover": 52774.6,
+   "guests": 32
+  }
+ ],
+ "ahead": [
+  {
+   "month": "2026-11",
+   "status": "今月",
+   "nights": 11,
+   "bookings": 7,
+   "gross": 461400,
+   "net": 389883
+  },
+  {
+   "month": "2026-12",
+   "status": "予約済み",
+   "nights": 8,
+   "bookings": 4,
+   "gross": 328800,
+   "net": 277836
+  },
+  {
+   "month": "2027-01",
+   "status": "予約済み",
+   "nights": 4,
+   "bookings": 3,
+   "gross": 169400,
+   "net": 143143
+  },
+  {
+   "month": "2027-02",
+   "status": "予約済み",
+   "nights": 0,
+   "bookings": 0,
+   "gross": 0,
+   "net": 0
+  }
+ ]
+}
