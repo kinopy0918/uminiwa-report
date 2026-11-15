@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15 17:12",
+ "generated": "2026-11-15 17:22",
  "opening": "2026-07-16",
  "ledger_until": "2026-11-05",
  "initial": {
@@ -2326,6 +2326,42 @@
     "date": "2026/10/10",
     "what": "電気料金のPayPay支払い",
     "amount": 11259,
+    "payer": "キノシタ",
+    "in_ledger": true,
+    "via_bank": false,
+    "status": "本人の立替に合算"
+   },
+   {
+    "date": "2026/10/10",
+    "what": "使い捨てハブラシ（ハミガキ液付）2000セット",
+    "amount": 30800,
+    "payer": "キノシタ",
+    "in_ledger": true,
+    "via_bank": false,
+    "status": "本人の立替に合算"
+   },
+   {
+    "date": "2026/10/17",
+    "what": "山崎実業 スリッパラック アーバン ブラック×2",
+    "amount": 5877,
+    "payer": "キノシタ",
+    "in_ledger": true,
+    "via_bank": false,
+    "status": "本人の立替に合算"
+   },
+   {
+    "date": "2026/10/18",
+    "what": "SESAMEタッチ2Pro×1＋SESAME 6 Pro 引き戸×1（玄関の電子錠・海庭分）",
+    "amount": 10406,
+    "payer": "キノシタ",
+    "in_ledger": true,
+    "via_bank": false,
+    "status": "本人の立替に合算"
+   },
+   {
+    "date": "2026/10/18",
+    "what": "SESAME注文の送料（全額海庭）",
+    "amount": 980,
     "payer": "キノシタ",
     "in_ledger": true,
     "via_bank": false,
