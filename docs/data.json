@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15 15:59",
+ "generated": "2026-11-15 16:10",
  "opening": "2026-07-16",
  "ledger_until": "2026-11-05",
  "initial": {
@@ -172,9 +172,9 @@
    "rent": 65000,
    "linen": 19587,
    "cleaning": 10000,
-   "other_cost": 50309,
-   "cost": 144896,
-   "profit": 78417,
+   "other_cost": 59135,
+   "cost": 153722,
+   "profit": 69591,
    "stays": 5,
    "net_per_turnover": 52774.6,
    "guests": 32,
@@ -227,9 +227,9 @@
    "rent": 65000,
    "linen": 26261,
    "cleaning": 17500,
-   "other_cost": 2248,
-   "cost": 111009,
-   "profit": 278874,
+   "other_cost": 33711,
+   "cost": 142472,
+   "profit": 247411,
    "stays": 1,
    "net_per_turnover": 77740.0,
    "guests": 4,
@@ -2015,15 +2015,10 @@
   }
  ],
  "tatekae": {
-  "paid": 1863292,
+  "paid": 2263292,
   "equity": 750000,
-  "settled": 887577,
-  "pending": [
-   {
-    "date": "2026/10/13",
-    "amount": 400000
-   }
-  ]
+  "settled": 1287577,
+  "pending": []
  },
- "unconfirmed_total": 40289
+ "unconfirmed_total": 0
 }
