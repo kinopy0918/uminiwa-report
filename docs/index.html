@@ -5,92 +5,105 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>海庭 事業レポート</title>
+<meta name="theme-color" content="#f5f5f7">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700&family=Roboto+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap">
 <style>
-/* 明るい資料風：白い紙・細い罫線・明朝の見出し。印刷してもそのまま読める
+/* Apple風：システムフォント・薄いグレーの地に白いカード・大きく詰めた数字・半透明の上部バー
    読む順＝選んだ期間の要点 → お金の流れ → 投資の回収 → 月ごと → 立替 → この先 → 集客 → 初期投資 → 決め方 */
 :root{
-  --paper:#ffffff; --desk:#f4f2ee; --ink:#1d2327; --muted:#646b70; --faint:#9aa0a4; --rule:#e3e0da; --rule-strong:#1d2327;
-  --accent:#1f5f63; --accent-soft:#e6efee; --cost:#b89463; --good:#2b7a4b; --bad:#b03a3a;
-  --serif:"Noto Serif JP","Hiragino Mincho ProN",serif;
-  --sans:"Noto Sans JP","Hiragino Sans",system-ui,sans-serif;
-  --mono:"Roboto Mono",ui-monospace,monospace;
+  --bg:#f5f5f7; --card:#ffffff; --ink:#1d1d1f; --muted:#6e6e73; --faint:#86868b; --rule:#e5e5ea;
+  --accent:#0071e3; --accent-soft:#e8f1fc; --cost:#c7c7cc; --good:#248a3d; --bad:#d70015;
+  --bar-bg:rgba(245,245,247,.72);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,sans-serif;
+  --num:-apple-system,BlinkMacSystemFont,"SF Pro Display","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;
   color-scheme:light;
 }
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#000000; --card:#1c1c1e; --ink:#f5f5f7; --muted:#a1a1a6; --faint:#8e8e93; --rule:#38383a;
+  --accent:#2997ff; --accent-soft:#0a2540; --cost:#48484a; --good:#30d158; --bad:#ff453a; --bar-bg:rgba(0,0,0,.66); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#000000; --card:#1c1c1e; --ink:#f5f5f7; --muted:#a1a1a6; --faint:#8e8e93; --rule:#38383a;
+  --accent:#2997ff; --accent-soft:#0a2540; --cost:#48484a; --good:#30d158; --bad:#ff453a; --bar-bg:rgba(0,0,0,.66); color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0;background:var(--desk);color:var(--ink);font-family:var(--sans);font-size:14.5px;line-height:1.75}
-.paper{max-width:1040px;margin:24px auto 64px;background:var(--paper);padding:48px 56px 56px;box-shadow:0 1px 2px rgba(0,0,0,.06),0 8px 28px rgba(0,0,0,.05)}
-@media (max-width:720px){.paper{margin:0;padding:28px 16px 40px;box-shadow:none}}
-header.top{display:grid;grid-template-columns:1fr auto;gap:12px 24px;align-items:end;border-bottom:2px solid var(--rule-strong);padding-bottom:18px}
-@media (max-width:620px){header.top{grid-template-columns:1fr}}
-.kicker{font-size:11.5px;letter-spacing:.24em;color:var(--accent);font-weight:700;margin:0 0 6px}
-h1{font-family:var(--serif);font-weight:700;font-size:clamp(26px,4.4vw,36px);letter-spacing:.08em;margin:0;line-height:1.25}
-.meta{font-size:12px;color:var(--muted);margin:6px 0 0}
-.picker{display:grid;gap:4px;justify-items:end}
-@media (max-width:620px){.picker{justify-items:start}}
-.picker label{font-size:11.5px;color:var(--muted);letter-spacing:.08em}
-select{font:inherit;font-size:15px;font-weight:700;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:2px;padding:7px 38px 7px 12px;appearance:none;min-width:220px;cursor:pointer;
-  background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 18px) 55%,calc(100% - 13px) 55%;background-size:5px 5px;background-repeat:no-repeat}
-select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.block{padding-top:34px}
-h2{font-family:var(--serif);font-weight:700;font-size:19px;letter-spacing:.06em;margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
-h2 .no{font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:500;letter-spacing:0}
-.lead{color:var(--muted);font-size:13px;margin:0 0 16px}
-.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
-.fig{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:14px 16px 12px;display:grid;gap:1px;align-content:start}
-.fig .k{font-size:12px;color:var(--muted)}
-.fig .v{font-family:var(--mono);font-size:24px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.35;letter-spacing:-.01em}
-.fig .s{font-size:11.5px;color:var(--faint);line-height:1.55}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;font-feature-settings:"palt" 1}
+.nav{position:sticky;top:0;z-index:10;background:var(--bar-bg);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--rule)}
+.nav-in{max-width:1040px;margin:0 auto;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-weight:600;font-size:15px;letter-spacing:-.01em}
+.seg{display:inline-flex;background:rgba(118,118,128,.12);border-radius:9px;padding:2px;gap:2px;overflow-x:auto;max-width:100%}
+.seg button{font:inherit;font-size:13px;font-weight:500;color:var(--ink);background:transparent;border:0;border-radius:7px;padding:5px 14px;white-space:nowrap;cursor:pointer;transition:background-color .2s ease,box-shadow .2s ease,transform .1s ease-out}
+.seg button:active{transform:scale(.97)}
+.seg button[aria-pressed="true"]{background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.12),0 0 0 .5px rgba(0,0,0,.04);font-weight:600}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.paper{max-width:1040px;margin:0 auto;padding:44px 22px 80px;display:grid;grid-template-columns:minmax(0,1fr);gap:22px}
+@media (max-width:620px){.paper{padding:28px 16px 56px}.nav-in{padding:8px 16px}}
+.hero{padding:8px 0 10px}
+.kicker{font-size:14px;font-weight:600;color:var(--accent);margin:0 0 4px}
+h1{font-family:var(--num);font-weight:700;font-size:clamp(34px,6vw,56px);letter-spacing:-.025em;line-height:1.07;margin:0}
+.meta{font-size:14px;color:var(--muted);margin:10px 0 0}
+.block{background:var(--card);border-radius:18px;padding:28px 28px 30px;min-width:0}
+@media (max-width:620px){.block{padding:22px 18px 24px;border-radius:16px}}
+h2{font-family:var(--num);font-weight:700;font-size:24px;letter-spacing:-.015em;line-height:1.2;margin:0 0 6px}
+h2 .no{display:none}
+h3{font-size:16px;font-weight:600;letter-spacing:-.01em;margin:0 0 4px}
+.lead{color:var(--muted);font-size:14px;margin:0 0 20px}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:24px 20px}
+#sum{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:620px){#sum{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fig{display:grid;gap:2px;align-content:start}
+.fig .k{font-size:13px;color:var(--muted);font-weight:500}
+.fig .v{font-family:var(--num);font-size:32px;font-weight:700;letter-spacing:-.025em;line-height:1.15;font-variant-numeric:tabular-nums}
+.fig .s{font-size:12px;color:var(--faint);line-height:1.5;margin-top:2px}
 .fig.key .v{color:var(--accent)}
-.bar{height:6px;background:var(--accent-soft);margin:6px 0 2px}
-.bar i{display:block;height:100%;background:var(--accent)}
-.flow{display:grid;gap:7px}
-.flow-row{display:grid;grid-template-columns:9em 1fr 7.5em;gap:12px;align-items:center;font-size:13px}
-.flow-row .track{height:18px;background:#f6f5f2;position:relative}
-.flow-row .track i{position:absolute;top:0;bottom:0}
-.flow-row .amt{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
-.flow-row.total{border-top:1px solid var(--ink);padding-top:7px;font-weight:700}
-@media (max-width:520px){.flow-row{grid-template-columns:6.5em 1fr 6.5em;font-size:12px}}
+.bar{height:6px;background:var(--accent-soft);border-radius:99px;margin:8px 0 2px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.flow{display:grid;gap:10px}
+.flow-row{display:grid;grid-template-columns:9em 1fr 7.5em;gap:14px;align-items:center;font-size:14px}
+.flow-row .track{height:22px;background:var(--bg);border-radius:6px;position:relative;overflow:hidden}
+.flow-row .track i{position:absolute;top:0;bottom:0;border-radius:6px;transition:left .45s cubic-bezier(.2,.8,.2,1),width .45s cubic-bezier(.2,.8,.2,1)}
+.flow-row .amt{text-align:right;font-family:var(--num);font-variant-numeric:tabular-nums;font-weight:500}
+.flow-row.total{font-weight:700;padding-top:10px;border-top:1px solid var(--rule)}
+@media (max-width:520px){.flow-row{grid-template-columns:6.5em 1fr 6.5em;font-size:12.5px;gap:10px}}
 .scroll{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:13px;min-width:600px}
-th,td{padding:7px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
-th:first-child,td:first-child{text-align:left}
-thead th{font-size:11.5px;color:var(--muted);font-weight:500;border-bottom:1px solid var(--ink)}
-td{font-family:var(--mono);font-variant-numeric:tabular-nums}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:600px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left;padding-left:0}
+thead th{font-size:12px;color:var(--muted);font-weight:600}
+td{font-family:var(--num);font-variant-numeric:tabular-nums}
 td:first-child{font-family:var(--sans)}
-td.grp{font-family:var(--sans);font-size:11.5px;color:var(--accent);font-weight:700;letter-spacing:.08em;padding-top:16px;border-bottom:none}
-tr.sum td{font-weight:700;border-top:1px solid var(--ink)}
-.sel{background:var(--accent-soft)}
+td.grp{font-family:var(--sans);font-size:12px;color:var(--muted);font-weight:600;padding-top:22px}
+tr.sum td{font-weight:700}
+th.sel,td.sel{background:var(--accent-soft)}
 .neg{color:var(--bad)} .pos{color:var(--good)}
-.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px}
 .two>div{min-width:0}
-.chip{display:inline-block;font-family:var(--sans);font-size:11px;padding:0 8px;border:1px solid var(--rule);color:var(--muted);white-space:nowrap}
-.chip.good{border-color:var(--good);color:var(--good)} .chip.bad{border-color:var(--bad);color:var(--bad)} .chip.run{border-color:var(--accent);color:var(--accent)}
-td.wrap{white-space:normal;font-family:var(--sans);min-width:16em;text-align:left;line-height:1.6}
+.chip{display:inline-block;font-family:var(--sans);font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:99px;background:rgba(118,118,128,.12);color:var(--muted);white-space:nowrap}
+.chip.good{background:rgba(36,138,61,.12);color:var(--good)} .chip.bad{background:rgba(215,0,21,.1);color:var(--bad)} .chip.run{background:var(--accent-soft);color:var(--accent)}
+td.wrap{white-space:normal;font-family:var(--sans);min-width:16em;text-align:left;line-height:1.55}
 #exps td{vertical-align:top}
-.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:4px}
-.legend i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px}
-svg text{fill:var(--muted);font-family:var(--mono);font-size:11px}
-dl.gloss{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin:0;font-size:12.5px}
-dl.gloss dt{font-weight:700} dl.gloss dd{margin:0;color:var(--muted)}
-.notes{font-size:12px;color:var(--muted);display:grid;gap:4px;margin:14px 0 0;padding-left:1.2em}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-bottom:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+svg text{fill:var(--faint);font-family:var(--num);font-size:11px}
+dl.gloss{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:0;font-size:13.5px}
+dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
+.notes{font-size:12.5px;color:var(--muted);display:grid;gap:6px;margin:18px 0 0;padding-left:1.2em}
 .err{color:var(--bad)}
-@media print{body{background:#fff}.paper{box-shadow:none;margin:0;max-width:none}.picker{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{.nav{display:none}.block{break-inside:avoid}}
 </style>
 </head>
 <body>
+<nav class="nav" aria-label="期間">
+  <div class="nav-in">
+    <span class="brand">海庭</span>
+    <div class="seg" id="period" role="group" aria-label="見る期間"></div>
+  </div>
+</nav>
 <main class="paper">
-  <header class="top">
-    <div>
-      <p class="kicker">UMINIWA · BEPPU</p>
-      <h1>海庭 事業レポート</h1>
-      <p class="meta" id="stamp">読み込み中…</p>
-    </div>
-    <div class="picker">
-      <label for="period">見る期間</label>
-      <select id="period"></select>
-    </div>
+  <header class="hero">
+    <p class="kicker">UMINIWA · BEPPU</p>
+    <h1>海庭 事業レポート</h1>
+    <p class="meta" id="stamp">読み込み中…</p>
   </header>
 
   <section class="block">
@@ -197,12 +210,16 @@ function render(d){
   D=d; DONE=d.months.filter(m=>m.status==="実績"); T=total(DONE);
   const last=DONE[DONE.length-1].month;
   $("stamp").textContent=`${ym(last)}末までの実績 ／ 開業 ${d.opening} ／ 更新 ${d.generated}`;
-  const sel=$("period");
-  sel.innerHTML=`<option value="all">全期間（開業〜${mo(last)}末）</option>`+DONE.slice().reverse().map(m=>`<option value="${m.month}">${ym(m.month)}</option>`).join("");
-  let saved="all"; try{saved=localStorage.getItem("uminiwa-report-period")||"all"}catch(e){}
-  if([...sel.options].some(o=>o.value===saved)) sel.value=saved;
-  sel.addEventListener("change",()=>{try{localStorage.setItem("uminiwa-report-period",sel.value)}catch(e){} renderPeriod(sel.value)});
-  renderStatic(); renderPeriod(sel.value);
+  const opts=[["all","全期間"],...DONE.map(m=>[m.month,mo(m.month)])];
+  let cur="all"; try{cur=localStorage.getItem("uminiwa-report-period")||"all"}catch(e){}
+  if(!opts.some(o=>o[0]===cur)) cur="all";
+  const seg=$("period");
+  seg.innerHTML=opts.map(([v,l])=>`<button type="button" data-v="${v}" aria-pressed="${v===cur}">${l}</button>`).join("");
+  // 押した瞬間に切り替える（pointerdown）。キーボードは click で拾う
+  const pick=v=>{if(v===cur) return; cur=v; seg.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===v)); try{localStorage.setItem("uminiwa-report-period",v)}catch(e){} renderPeriod(v)};
+  seg.addEventListener("pointerdown",e=>{const b=e.target.closest("button"); if(b) pick(b.dataset.v)});
+  seg.addEventListener("click",e=>{const b=e.target.closest("button"); if(b) pick(b.dataset.v)});
+  renderStatic(); renderPeriod(cur);
 }
 
 function renderPeriod(key){
@@ -254,14 +271,14 @@ function renderStatic(){
   ].map(fig).join("");
 
   // 月ごとの収支（グラフ＋表）
-  $("pl-lead").textContent=`${ms.length}か月で売上${man(T.gross)}、営業利益${man(T.profit)}（月平均${man(T.profit/ms.length)}）。プルダウンで選んだ月は色がつきます。`;
+  $("pl-lead").textContent=`${ms.length}か月で売上${man(T.gross)}、営業利益${man(T.profit)}（月平均${man(T.profit/ms.length)}）。上で選んだ月の列に色がつきます。`;
   const W=640,H=220,P={l:46,r:12,t:24,b:28}, n=ms.length, gw=(W-P.l-P.r)/n, bw=Math.min(gw*.28,42);
   const top=Math.ceil(Math.max(...ms.map(m=>Math.max(m.net,m.cost)))/100000)*100000||100000;
   const Y=v=>P.t+(1-v/top)*(H-P.t-P.b), base=Y(0);
   const grid=[0,top/2,top].map(g=>`<line x1="${P.l}" x2="${W-P.r}" y1="${Y(g)}" y2="${Y(g)}" stroke="var(--rule)"/><text x="${P.l-6}" y="${Y(g)+4}" text-anchor="end">${g/10000}万</text>`).join("");
   const bars=ms.map((m,i)=>{const cx=P.l+gw*i+gw/2;
-    return `<rect x="${cx-bw-2}" y="${Y(m.net)}" width="${bw}" height="${base-Y(m.net)}" fill="var(--accent)"><title>${mo(m.month)} 手取り ${yen(m.net)}</title></rect>
-    <rect x="${cx+2}" y="${Y(m.cost)}" width="${bw}" height="${base-Y(m.cost)}" fill="var(--cost)"><title>${mo(m.month)} 運営費 ${yen(m.cost)}</title></rect>
+    return `<rect x="${cx-bw-2}" y="${Y(m.net)}" width="${bw}" height="${base-Y(m.net)}" rx="4" fill="var(--accent)"><title>${mo(m.month)} 手取り ${yen(m.net)}</title></rect>
+    <rect x="${cx+2}" y="${Y(m.cost)}" width="${bw}" height="${base-Y(m.cost)}" rx="4" fill="var(--cost)"><title>${mo(m.month)} 運営費 ${yen(m.cost)}</title></rect>
     <text x="${cx}" y="${Math.min(Y(m.net),Y(m.cost))-7}" text-anchor="middle" style="fill:${m.profit<0?"var(--bad)":"var(--good)"};font-weight:500">${m.profit<0?"−":"+"}${(Math.abs(m.profit)/10000).toFixed(1)}万</text>
     <text x="${cx}" y="${H-8}" text-anchor="middle" style="fill:var(--ink);font-family:var(--sans);font-size:12px">${mo(m.month)}</text>`}).join("");
   $("pl-chart").innerHTML=`<div class="legend"><span><i style="background:var(--accent)"></i>手取り</span><span><i style="background:var(--cost)"></i>運営費</span><span style="color:var(--good)">上の数字＝営業利益</span></div>
@@ -341,7 +358,7 @@ function history(daily,exps){
   const pts=daily.map(x=>`${X(x[0]).toFixed(1)},${Y(x[1]).toFixed(1)}`).join(" ");
   const grid=[0,top/2,top].map(g=>`<line x1="${P.l}" x2="${W-P.r}" y1="${Y(g)}" y2="${Y(g)}" stroke="var(--rule)"/><text x="${P.l-6}" y="${Y(g)+4}" text-anchor="end">${g}</text>`).join("");
   const marks=exps.filter(e=>e.started>=daily[0][0]&&e.started<=daily[daily.length-1][0]).map(e=>{const x=X(e.started);
-    return `<line x1="${x}" x2="${x}" y1="${P.t}" y2="${H-P.b}" stroke="var(--cost)" stroke-width="1.5" stroke-dasharray="4 3"/><text x="${x+4}" y="${P.t+10}" style="fill:var(--cost)">${esc(e.id)}</text>`}).join("");
+    return `<line x1="${x}" x2="${x}" y1="${P.t}" y2="${H-P.b}" stroke="var(--faint)" stroke-width="1" stroke-dasharray="3 3"/><text x="${x+4}" y="${P.t+10}" style="fill:var(--muted)">${esc(e.id)}</text>`}).join("");
   const n=daily.length-1, idx=[...new Set([0,Math.round(n/3),Math.round(2*n/3),n])];
   const lbl=idx.map(i=>`<text x="${X(daily[i][0])}" y="${H-8}" text-anchor="${i===0?"start":i===n?"end":"middle"}">${daily[i][0].slice(5).replace("-","/")}</text>`).join("");
   return `<div class="scroll"><svg viewBox="0 0 ${W} ${H}" width="100%" style="min-width:560px" role="img" aria-label="日別の閲覧数と施策">${grid}
