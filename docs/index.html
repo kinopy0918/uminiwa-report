@@ -204,7 +204,7 @@ svg.i{width:16px;height:16px;flex:none;display:inline-block;vertical-align:-3px}
 .hic svg.i{width:16px;height:16px}
 .block h2{justify-content:flex-start}
 .block h2 > .btn,.block h2 > .lead{margin-left:auto}
-.kl{display:inline-flex;align-items:center;gap:7px}
+.kl{display:inline-flex;align-items:center;gap:7px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .ic{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:7px;background:var(--accent-soft);color:var(--accent);flex:none}
 .ic svg.i{width:14px;height:14px}
 .ic.good{background:var(--good-soft);color:var(--good)}
@@ -426,7 +426,7 @@ const svgI=(n,cls="")=>IC[n]?`<svg class="i ${cls}" viewBox="0 0 24 24" fill="no
 // 数字のカードのラベル → アイコンと色（good=緑・warn=橙・なし=青紫）
 const LABEL_IC=[["営業利益の累計","trend","good"],["営業利益","trend","good"],["売上","yen"],["稼働率","bed"],["1泊の平均単価","tag"],["1日あたり売上","sun"],["1組あたり手取り","user"],
  ["初期投資","building"],["回収率","target"],["年換算利回り","percent"],["回収までの見込み","clock"],
- ["海庭の口座","bank"],["キノシタの口座で預かり中","inbox"],["現預金の合計","wallet","good"],["これから届くAirbnb入金","calendar"],["立替の未精算","alert","warn"],["差し引き","scale"],
+ ["海庭の口座","bank"],["預かり中","inbox"],["現預金の合計","wallet","good"],["入金予定","calendar"],["立替の未精算","alert","warn"],["差し引き","scale"],
  ["出資","users"],["泊まった人数","users"],["家族連れ","user"],["海外から","target"],["大人・子ども・乳幼児","users"],["立替の合計","receipt"],["精算済み","check","good"],["未精算の合計","alert","warn"]];
 const iconFor=k=>{const t=String(k).replace(/<[^>]*>/g,""); const h=LABEL_IC.find(([l])=>t.startsWith(l)); return h?`<span class="ic ${h[2]||""}">${svgI(h[1])}</span>`:""};
 const SEC_IC={"s-sum":"dashboard","s-chart":"bar","s-flow":"flow","s-inv":"target","s-ahead":"calendar","s-pl":"table","s-cash":"wallet","s-tk":"coins","s-tk-equity":"users","s-tk-people":"user","s-tk-notes":"info","s-tk-month":"calendar","s-tk-list":"receipt","s-mkt":"eye","s-guests":"users","s-init-month":"building","s-init":"pie","s-notes":"info"};
@@ -551,10 +551,10 @@ function renderStatic(){
     $("cash-lead").textContent=`海庭の口座の残高は ${esc(C.bank_date)} の取引まで記帳した通帳の金額です。`;
     $("cash").innerHTML=[
       ["海庭の口座",yen(C.bank),`${esc(C.bank_date)} 時点`],
-      ["キノシタの口座で預かり中",yen(C.held),"Airbnbから届いて、まだ海庭の口座に移していない額"],
+      ["預かり中",yen(C.held),"キノシタの口座に届いたAirbnb入金のうち、まだ海庭の口座に移していない額"],
       ["現預金の合計",yen(own),"上の2つの合計","key"],
-      ["これから届くAirbnb入金",yen(C.incoming),C.incoming_dates.length?`${C.incoming_dates.map(x=>esc(x.slice(5).replace("-","/"))).join("・")} 着金予定`:"なし"],
-      ["立替の未精算（これから払う）",yen(tkOpen),"下の「未精算の合計」と同じ"],
+      ["入金予定",yen(C.incoming),C.incoming_dates.length?`${C.incoming_dates.map(x=>esc(x.slice(5).replace("-","/"))).join("・")} にAirbnbから着金予定`:"なし"],
+      ["立替の未精算",yen(tkOpen),"これから払い戻す額（下の「未精算の合計」と同じ）"],
       ["差し引き",yen(net),`現預金−未精算。届く予定の入金を足すと ${yen(net+C.incoming)}`],
     ].map(fig).join("");
     $("cash-notes").innerHTML=[
