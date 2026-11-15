@@ -135,6 +135,11 @@ dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
 .pick select{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);background-color:var(--card);border:1px solid var(--line);border-radius:6px;padding:6px 32px 6px 10px;appearance:none;cursor:pointer;box-shadow:0 1px 2px rgba(13,37,61,.06);min-width:210px;
   background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 16px) 55%,calc(100% - 11px) 55%;background-size:5px 5px;background-repeat:no-repeat}
 .pick select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.btn{font-size:12.5px;font-weight:600;color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:4px 10px;white-space:nowrap}
+.btn:hover{background:var(--accent-soft)}
+#tk{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:900px){#tk{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#v-tatekae .row{align-items:start}
 </style>
 </head>
 <body>
@@ -197,10 +202,24 @@ dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
   </div>
   <div class="view" id="v-tatekae">
   <section class="block" id="s-tk">
-    <h2><span class="no">05</span>立替と精算</h2>
-    <p class="lead">運営者が個人のカードなどで立て替えた支払いと、口座からの精算の状況。</p>
+    <h2>出資と立替<a class="btn" id="tk-link" href="#" target="_blank" rel="noopener">経費スプレッドシートを開く ↗</a></h2>
+    <p class="lead">出資は4名がそれぞれ75万円。備品などの買い物はLINE「海庭｜領収書」に送った領収書から経費に計上し、立て替えた人に口座から精算しています。</p>
     <div class="figs" id="tk"></div>
-    <ul class="notes" id="tk-notes"></ul>
+  </section>
+  <div class="row even">
+  <section class="block" id="s-tk-people">
+    <h2>立て替えた人ごとの残り</h2>
+    <p class="lead">未精算＝これから口座から払い戻す額。</p>
+    <div class="scroll"><table id="tk-people" style="min-width:420px"></table></div>
+  </section>
+  <section class="block" id="s-tk-notes">
+    <h2>見方と注意点</h2>
+    <ul class="notes" id="tk-notes" style="margin-top:4px"></ul>
+  </section>
+  </div>
+  <section class="block" id="s-tk-list">
+    <h2>LINEで計上した立替の一覧<span class="lead" id="tk-count" style="margin:0"></span></h2>
+    <div class="scroll"><table id="tk-list"></table></div>
   </section>
   </div>
   <div class="view" id="v-marketing">
@@ -236,7 +255,7 @@ dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
     <dl class="gloss">
       <dt>売上</dt><dd>Airbnbに設定した宿泊料の合計。泊まった日で月に割り振る</dd>
       <dt>手取り</dt><dd>売上からAirbnbの手数料を引いた額</dd>
-      <dt>営業利益</dt><dd>手取りから家賃・リネン・清掃・光熱・消耗品を引いた額。手元の現金とは一致しない</dd>
+      <dt>営業利益</dt><dd>手取りから家賃・インターネット・リネン・清掃・光熱・消耗品を引いた額。手元の現金とは一致しない</dd>
       <dt>稼働率</dt><dd>営業日のうち宿泊が入っていた日の割合（1棟貸しなので1泊＝1日）</dd>
       <dt>1日あたり売上</dt><dd>売上 ÷ 営業日数。空いている日も含めた稼ぐ力</dd>
       <dt>1組あたり手取り</dt><dd>1回の清掃（1組の滞在）でいくら入ったか。チェックインした月で数える</dd>
@@ -264,7 +283,7 @@ const FEE_NOW=0.155, RENT_NOW=70000, RENT_OLD=65000;
 let D, DONE, T;
 function total(ms){
   const s=k=>ms.reduce((a,m)=>a+(m[k]||0),0);
-  const t={gross:s("gross"),fee:s("fee"),net:s("net"),rent:s("rent"),linen:s("linen"),cleaning:s("cleaning"),other_cost:s("other_cost"),cost:s("cost"),profit:s("profit"),
+  const t={gross:s("gross"),fee:s("fee"),net:s("net"),rent:s("rent"),internet:s("internet"),linen:s("linen"),cleaning:s("cleaning"),other_cost:s("other_cost"),cost:s("cost"),profit:s("profit"),
     nights:s("nights"),days:s("days"),bookings:s("bookings"),stays:s("stays")};
   t.turnNet=ms.reduce((a,m)=>a+(m.net_per_turnover||0)*(m.stays||0),0);
   t.occupancy=t.nights/t.days; t.adr=t.nights?t.gross/t.nights:0; t.net_per_turnover=t.stays?t.turnNet/t.stays:null;
@@ -306,7 +325,7 @@ function renderPeriod(key){
   ].join("");
 
   $("flow-title").textContent=`お金の流れ ― ${label}`;
-  const steps=[["売上（宿泊料）",p.gross,"var(--accent)"],["Airbnb手数料",-p.fee,"var(--accent-2)"],["家賃",-p.rent,"var(--accent-2)"],["リネン",-p.linen,"var(--accent-2)"],
+  const steps=[["売上（宿泊料）",p.gross,"var(--accent)"],["Airbnb手数料",-p.fee,"var(--accent-2)"],["家賃",-p.rent,"var(--accent-2)"],["インターネット",-(p.internet||0),"var(--accent-2)"],["リネン",-p.linen,"var(--accent-2)"],
     ["清掃",-p.cleaning,"var(--accent-2)"],["光熱・消耗品ほか",-p.other_cost,"var(--accent-2)"],["営業利益",p.profit,"var(--good)"]];
   let run=0; const max=Math.max(p.gross,1);
   $("flow").innerHTML=steps.map(([k,v,c],i)=>{
@@ -354,7 +373,7 @@ function renderStatic(){
   $("pl-chart").innerHTML=`<div class="legend"><span><i style="background:var(--accent)"></i>手取り</span><span><i style="background:var(--accent-2)"></i>運営費</span><span style="color:var(--good)">上の数字＝営業利益</span></div>
     <svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="月ごとの手取りと運営費">${grid}${bars}</svg>`;
   const cols=[...ms,{...T,month:"合計"}];
-  const money=[["売上（宿泊料）","gross",""],["Airbnb手数料","fee","−"],["手取り","net","b"],["家賃","rent","−"],["リネン","linen","−"],["清掃","cleaning","−"],["光熱・消耗品ほか","other_cost","−"],["運営費 計","cost","b−"],["営業利益","profit","p"]];
+  const money=[["売上（宿泊料）","gross",""],["Airbnb手数料","fee","−"],["手取り","net","b"],["家賃","rent","−"],["インターネット","internet","−"],["リネン","linen","−"],["清掃","cleaning","−"],["光熱・消耗品ほか","other_cost","−"],["運営費 計","cost","b−"],["営業利益","profit","p"]];
   const cell=(v,f)=>f==="p"?`<b class="${v<0?"neg":"pos"}">${yen(v)}</b>`:f.includes("b")?`<b>${f.includes("−")&&v?"−":""}${yen(v)}</b>`:`${f==="−"&&v?"−":""}${yen(v)}`;
   const kpi=[["営業利益率",c=>c.gross?pct(c.profit/c.gross):"—"],["稼働率",c=>pct(c.occupancy)],["泊数",c=>`${c.nights}泊`],["1泊の平均単価",c=>c.nights?yen(c.gross/c.nights):"—"],
     ["1日あたり売上",c=>yen(c.gross/c.days)],["Airbnb手数料率",c=>c.gross?pct(c.fee/c.gross,1):"—"],["チェックインした組数",c=>`${c.bookings}組`],["1組あたり手取り",c=>c.net_per_turnover?yen(c.net_per_turnover):"—"]];
@@ -365,20 +384,31 @@ function renderStatic(){
     `<tr><td class="grp" colspan="${cols.length+1}">運営の指標</td></tr>`+
     kpi.map(([k,fn])=>`<tr><td>${k}</td>${cols.map(c=>td(c,fn(c))).join("")}</tr>`).join("")+`</tbody>`;
 
-  // 立替と精算
-  const tk=d.tatekae, pend=tk.pending.reduce((a,x)=>a+x.amount,0), open=tk.paid-tk.equity-tk.settled;
+  // 出資と立替
+  const tk=d.tatekae, ppl=tk.people, openAll=ppl.reduce((a,p)=>a+Math.max(p.open,0),0), lines=tk.line;
+  $("tk-link").href=tk.line_sheet;
   $("tk").innerHTML=[
-    ["立て替えた額の累計",yen(tk.paid),"個人のカードで払った支出と、口座に入れた立替"],
-    ["うち出資として扱う分",yen(tk.equity),"立替の形で出資した分（精算しない）"],
-    ["口座から精算済み",yen(tk.settled),"口座から払い戻した額（戻し入れを差し引き）"],
-    ["未精算の残り",yen(open),pend?`内容確認中の振替${yen(pend)}が精算なら ${yen(open-pend)}`:"",open>0?"key":""],
+    ["出資",yen(tk.equity),`${tk.equity_n}名 × ¥750,000`],
+    ["立て替えた額の合計",yen(ppl.reduce((a,p)=>a+p.paid,0)),"出資の75万円を立替で出した分を含む"],
+    ["精算済み",yen(ppl.reduce((a,p)=>a+p.settled,0)),"口座から払い戻した額"],
+    ["未精算の合計",yen(openAll),`${ppl.filter(p=>p.open>0).length}名に払い戻し待ち`,openAll>0?"key":""],
   ].map(fig).join("");
+  $("tk-people").innerHTML=`<thead><tr><th>立て替えた人</th><th>立て替えた額</th><th>うち出資分</th><th>精算済み</th><th>未精算</th></tr></thead><tbody>`+
+    ppl.map(p=>`<tr><td>${esc(p.name)}</td><td>${yen(p.paid)}</td><td>${p.equity_in_kind?yen(p.equity_in_kind):"—"}</td><td>${yen(p.settled)}</td><td class="${p.open>0?"neg":""}"><b>${yen(p.open)}</b></td></tr>`).join("")+`</tbody>`;
+  const st=s=>s==="精算済み"?`<span class="chip good">精算済み</span>`:s==="未精算"?`<span class="chip bad">未精算</span>`:s==="口座払い"?`<span class="chip">口座払い</span>`:`<span class="chip run">${esc(s)}</span>`;
+  if(lines){
+    $("tk-count").textContent=`${lines.length}件・${yen(lines.reduce((a,i)=>a+i.amount,0))}`;
+    $("tk-list").innerHTML=`<thead><tr><th>日付</th><th style="text-align:left">内容</th><th>金額</th><th>立て替えた人</th><th>精算</th><th>台帳</th></tr></thead><tbody>`+
+      lines.slice().reverse().map(i=>`<tr><td>${esc(i.date.slice(5))}</td><td class="wrap" style="min-width:14em">${esc(i.what)}</td><td>${yen(i.amount)}</td><td>${esc(i.payer)}</td><td>${st(i.status)}</td><td>${i.in_ledger?"反映済み":`<span class="chip bad">未反映</span>`}</td></tr>`).join("")+`</tbody>`;
+  } else $("tk-list").innerHTML=`<tbody><tr><td>経費スプレッドシートを読めませんでした。右上のリンクから直接開いてください。</td></tr></tbody>`;
   $("tk-notes").innerHTML=[
-    pend?`口座から運営会社へ振り替えた${tk.pending.map(x=>`${esc(x.date)} ${yen(x.amount)}`).join("・")}は、何の精算かを確認中のため「精算済み」に入れていません。`:"",
-    `精算は口座から運営会社への振替で行っており、振替ごとの内訳の書類はありません。全額を立替の精算として数えています。`,
-    `立替の額は台帳に記帳した額です。原本と照合済みなのは、領収書で2026年10月の4件（¥48,063）、通帳で口座への立替入金（2026年7月 ¥400,000）と精算3件（6月・7月・10月）です。それ以前の立替の多く、2026年2月の精算2件（計¥400,000）、出資扱いの¥750,000は原本未確認です。`,
-    `領収書が届いていない立替は、まだ入っていません。`,
-  ].filter(Boolean).map(s=>`<li>${s}</li>`).join("");
+    `樹〇さんは出資の75万円を、口座に入れずに海庭の支払いを立て替える形で出しています。そのため「立て替えた額」から75万円を出資分として差し引いています。`,
+    `樹〇さんへの精算は口座から運営会社への振替で行っており、振替ごとの内訳の書類はありません。全額を立替の精算として数えています。`,
+    `ほかの方への精算は、口座からの振込と領収書の金額が一致したものを「精算済み」にしています。`,
+    `「口座払い」は口座から引き落とされた支払いの明細で、立替ではありません。「未反映」は帳簿にまだ入っていない領収書です。`,
+    `電気・水道は使った月の経費にしています（支払った月とは最大3か月ずれます）。`,
+    `立替の額は帳簿に記帳した額です。LINEで送られた領収書と、2026年10月の4件は原本と照合済みです。それ以前の立替の多くと、2026年2月の精算2件（計¥400,000）は原本未確認です。`,
+  ].map(s=>`<li>${s}</li>`).join("");
 
   // この先
   const A=d.months.filter(m=>m.status!=="実績").slice(0,4);
@@ -411,8 +441,8 @@ function renderStatic(){
     `実績は開業日（${esc(d.opening)}）から${ym(last)}末まで。7月は${ms[0].days}日分です。夏休み（7〜8月）を含むため、年換算の数字は冬の閑散期が入ると下がる見込みです。`,
     `年換算利回りと回収見込みは、Airbnb手数料を全予約15.5%、家賃を2027年1月からの月¥70,000に置き換えて計算した目安です。`,
     `一度きりの大きな支出を含む月があります：7月 トイレ修理 ¥51,920／8月 掃除機などの備品 ¥45,108／10月 使い捨て歯ブラシ2000セット ¥30,800（数年分を一括で計上）と玄関の電子錠 ¥11,386。`,
-    `電気・水道・ネット代はまだ入っていません${d.unconfirmed_total?`（内容を確認中の支出${yen(d.unconfirmed_total)}も未計上）`:""}。営業利益・回収率・利回りは実際より高めに出ています。経費精算（他の人が立て替えた分の払い戻し）は、内訳が分からないものも経費に入れています。`,
-    `Airbnbの手数料は9/16以降の予約から3%→15.5%に上がりました。家賃は契約額の日割り、リネンは単価表からの計算、清掃は10月から1回¥2,500です。`,
+    `電気・水道はLINEで届いた領収書の分だけ入っています（電気は9月分まで・水道は8月分まで）。10月以降の分が届くまで、その月の利益は高めに出ます。`,
+    `Airbnbの手数料は9/16以降の予約から3%→15.5%に上がりました。家賃は契約額の日割り、インターネットは月¥5,813の固定額を日割り、リネンは単価表からの計算、清掃は10月から1回¥2,500です。`,
     `初期投資は台帳に記帳した額です。請求書・通帳と照合済みなのは電気工事（¥1,167,100）と家賃の一部だけで、改装工事・家具などの多くは原本の確認が済んでいません。`,
     `口座の記帳は${esc(d.ledger_until)}まで。`,
   ].map(s=>`<li>${s}</li>`).join("");
