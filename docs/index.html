@@ -28,7 +28,7 @@
   --accent:#8b7dff; --accent-2:#3a3480; --accent-soft:#1d1a4a; --good:#34d399; --good-soft:#0f2e25; --bad:#fb7185; --bad-soft:#3a1420;
   --track:#1a2438; --seg:#1a2438; --seg-on:#26324a; --shadow:none; color-scheme:dark}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:72px}
+
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
 .app{display:grid;grid-template-columns:216px minmax(0,1fr);min-height:100vh}
 .side{position:sticky;top:0;height:100vh;background:var(--side);border-right:1px solid var(--line);padding:20px 12px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
@@ -107,37 +107,78 @@ dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
 .err{color:var(--bad)}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 @media print{.side,.topbar .seg{display:none}.app{display:block}.block{break-inside:avoid;box-shadow:none}}
+.view[hidden]{display:none!important}
+.view{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.mtabs{display:none}
+@media (max-width:820px){.mtabs{display:flex;gap:6px;overflow-x:auto;padding:0 0 2px}.mtabs a{flex:none;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:99px;background:var(--track)}.mtabs a.on{background:var(--accent-soft);color:var(--accent)}}
+#sum{grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+@media (max-width:1320px){#sum{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:620px){#sum{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#sum .fig{padding:10px 12px 6px}
+#sum .fig .v{font-size:21px}
+#sum .fig svg.sp{height:26px;margin-top:4px}
+#s-sum .lead{margin-bottom:10px}
+#invest{grid-template-columns:minmax(0,1fr);gap:0}
+#invest .fig{grid-template-columns:minmax(0,1fr) auto;align-items:baseline;column-gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+#invest .fig:last-child{border-bottom:0}
+#invest .fig .k{grid-column:1;grid-row:1;font-size:13px;color:var(--ink-2)}
+#invest .fig .v{grid-column:2;grid-row:1;font-size:19px;text-align:right}
+#invest .fig .s,#invest .fig .bar{grid-column:1/-1}
+#s-chart svg{width:100%;height:auto;max-height:260px}
+#invest .fig .s{display:none}
+#invest .fig.key .s,#invest .fig:nth-child(4) .s{display:block}
+#invest .fig{padding:7px 0}
+#v-overview .row{align-items:start}
+.row.tri{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.95fr)}
+@media (max-width:1320px){.row.tri{grid-template-columns:repeat(2,minmax(0,1fr))}.row.tri #s-chart{grid-column:1/-1}}
+@media (max-width:1060px){.row.tri{grid-template-columns:minmax(0,1fr)}}
+.row.tri .flow-row{grid-template-columns:8.6em 1fr 6.5em;gap:8px;font-size:12.5px}
+#ahead{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:900px){#ahead{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#ahead .fig{border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+#ahead .fig .v{font-size:20px}
+#s-ahead .lead{margin-bottom:10px}
+#v-overview .lead{margin-bottom:10px}
+.pick{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);font-weight:500}
+.pick select{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);background-color:var(--card);border:1px solid var(--line);border-radius:6px;padding:6px 32px 6px 10px;appearance:none;cursor:pointer;box-shadow:0 1px 2px rgba(13,37,61,.06);min-width:210px;
+  background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 16px) 55%,calc(100% - 11px) 55%;background-size:5px 5px;background-repeat:no-repeat}
+.pick select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 </style>
 </head>
 <body>
 <div class="app">
 <aside class="side" aria-label="メニュー">
   <div class="logo"><i></i><span>海庭<small>UMINIWA · BEPPU</small></span></div>
-  <a href="#s-sum" class="on">概要</a>
-  <a href="#s-flow">お金の流れ</a>
-  <a href="#s-inv">投資の回収</a>
-  <a href="#s-pl">月ごとの収支</a>
-  <a href="#s-tk">立替と精算</a>
-  <a href="#s-ahead">この先の予約</a>
-  <a href="#s-mkt">集客</a>
-  <a href="#s-init">初期投資</a>
-  <a href="#s-notes">数字の決め方</a>
+  <a href="#overview" data-view="overview" class="on">概要</a>
+  <a href="#monthly" data-view="monthly">月ごとの収支</a>
+  <a href="#tatekae" data-view="tatekae">立替と精算</a>
+  <a href="#marketing" data-view="marketing">集客</a>
+  <a href="#initial" data-view="initial">初期投資と注記</a>
   <div class="foot" id="foot"></div>
 </aside>
 <div>
 <header class="topbar">
   <div class="topbar-in">
     <h1>海庭 事業ダッシュボード<span class="meta" id="stamp">読み込み中…</span></h1>
-    <div class="seg" id="period" role="group" aria-label="見る期間"></div>
+    <label class="pick"><span>期間</span><select id="period" aria-label="見る期間"></select></label>
   </div>
 </header>
 <main class="content">
+  <nav class="mtabs" aria-label="画面">
+    <a href="#overview" data-view="overview" class="on">概要</a><a href="#monthly" data-view="monthly">収支</a><a href="#tatekae" data-view="tatekae">立替</a><a href="#marketing" data-view="marketing">集客</a><a href="#initial" data-view="initial">初期投資</a>
+  </nav>
+  <div class="view" id="v-overview">
   <section class="block" id="s-sum">
     <h2><span class="no">01</span><span id="sum-title">要点</span></h2>
     <p class="lead" id="sum-lead"></p>
     <div class="figs" id="sum"></div>
   </section>
-  <div class="row">
+  <div class="row tri">
+  <section class="block" id="s-chart">
+    <h2>月ごとの手取りと運営費</h2>
+    <p class="lead" id="pl-lead"></p>
+    <div id="pl-chart"></div>
+  </section>
   <section class="block" id="s-flow">
     <h2><span class="no">02</span><span id="flow-title">お金の流れ</span></h2>
     <p class="lead">売上から何を引いて、いくらが営業利益として残ったか。</p>
@@ -149,25 +190,28 @@ dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
     <div class="figs" id="invest"></div>
   </section>
   </div>
-  <section class="block" id="s-pl">
-    <h2><span class="no">04</span>月ごとの収支</h2>
-    <p class="lead" id="pl-lead"></p>
-    <div id="pl-chart"></div>
-    <div class="scroll" style="margin-top:14px"><table id="pl"></table></div>
+  <section class="block" id="s-ahead">
+    <h2><span class="no">06</span>この先の予約</h2>
+    <p class="lead" id="ahead-lead"></p>
+    <div class="figs" id="ahead"></div>
   </section>
-  <div class="row even">
+  </div>
+  <div class="view" id="v-monthly">
+  <section class="block" id="s-pl">
+    <h2>月ごとの収支（明細）</h2>
+    <p class="lead">損益と運営の指標を月ごとに並べた明細。上で選んだ月の列に色がつきます。</p>
+    <div class="scroll"><table id="pl"></table></div>
+  </section>
+  </div>
+  <div class="view" id="v-tatekae">
   <section class="block" id="s-tk">
     <h2><span class="no">05</span>立替と精算</h2>
     <p class="lead">運営者が個人のカードなどで立て替えた支払いと、口座からの精算の状況。</p>
     <div class="figs" id="tk"></div>
     <ul class="notes" id="tk-notes"></ul>
   </section>
-  <section class="block" id="s-ahead">
-    <h2><span class="no">06</span>この先の予約</h2>
-    <p class="lead" id="ahead-lead"></p>
-    <div class="scroll"><table id="ahead" style="min-width:460px"></table></div>
-  </section>
   </div>
+  <div class="view" id="v-marketing">
   <section class="block" id="s-mkt">
     <h2><span class="no">07</span>集客</h2>
     <p class="lead" id="views-lead"></p>
@@ -187,6 +231,8 @@ dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
     <h3 style="font-size:14px;margin:24px 0 8px">施策と結果</h3>
     <div class="scroll"><table id="exps"></table></div>
   </section>
+  </div>
+  <div class="view" id="v-initial">
   <div class="row even">
   <section class="block" id="s-init">
     <h2><span class="no">08</span>初期投資の内訳</h2>
@@ -208,6 +254,7 @@ dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
     </dl>
     <ul class="notes" id="notes"></ul>
   </section>
+  </div>
   </div>
 </main>
 </div>
@@ -239,12 +286,10 @@ function render(d){
   const opts=[["all","全期間"],...DONE.map(m=>[m.month,mo(m.month)])];
   let cur="all"; try{cur=localStorage.getItem("uminiwa-report-period")||"all"}catch(e){}
   if(!opts.some(o=>o[0]===cur)) cur="all";
-  const seg=$("period");
-  seg.innerHTML=opts.map(([v,l])=>`<button type="button" data-v="${v}" aria-pressed="${v===cur}">${l}</button>`).join("");
-  // 押した瞬間に切り替える（pointerdown）。キーボードは click で拾う
-  const pick=v=>{if(v===cur) return; cur=v; seg.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===v)); try{localStorage.setItem("uminiwa-report-period",v)}catch(e){} renderPeriod(v)};
-  seg.addEventListener("pointerdown",e=>{const b=e.target.closest("button"); if(b) pick(b.dataset.v)});
-  seg.addEventListener("click",e=>{const b=e.target.closest("button"); if(b) pick(b.dataset.v)});
+  const sel=$("period");
+  sel.innerHTML=opts.map(([v,l])=>`<option value="${v}">${v==="all"?`全期間（開業〜${mo(last)}末）`:ym(v)}</option>`).join("");
+  sel.value=cur;
+  sel.addEventListener("change",()=>{cur=sel.value; try{localStorage.setItem("uminiwa-report-period",cur)}catch(e){} renderPeriod(cur)});
   renderStatic(); renderPeriod(cur);
 }
 
@@ -294,7 +339,7 @@ function renderStatic(){
   const init=d.initial.total, payback=T.profit/init, annualRaw=T.profit*365/T.days;
   const profitNow=T.profit-(T.gross*FEE_NOW-T.fee)-(RENT_NOW-RENT_OLD)*12*T.days/365;
   const annual=profitNow*365/T.days, yld=annual/init, remain=Math.max(init-T.profit,0)/annual;
-  $("inv-lead").textContent=`期間の選択にかかわらず、開業から${ym(last)}末までの累計で見ています。`;
+  $("inv-lead").textContent=`開業から${ym(last)}末までの累計（期間の選択に関係なく）。`;
   $("invest").innerHTML=[
     ["初期投資",man(init),`開業前の家賃${man(d.initial.by_cat["地代家賃"]||0)}を含む`],
     ["営業利益の累計",man(T.profit),`${T.days}日間`,"key"],
@@ -304,8 +349,8 @@ function renderStatic(){
   ].map(fig).join("");
 
   // 月ごとの収支（グラフ＋表）
-  $("pl-lead").textContent=`${ms.length}か月で売上${man(T.gross)}、営業利益${man(T.profit)}（月平均${man(T.profit/ms.length)}）。上で選んだ月の列に色がつきます。`;
-  const W=640,H=220,P={l:46,r:12,t:24,b:28}, n=ms.length, gw=(W-P.l-P.r)/n, bw=Math.min(gw*.28,42);
+  $("pl-lead").textContent=`${ms.length}か月で売上${man(T.gross)}、営業利益${man(T.profit)}（月平均${man(T.profit/ms.length)}）。`;
+  const W=440,H=210,P={l:40,r:8,t:22,b:26}, n=ms.length, gw=(W-P.l-P.r)/n, bw=Math.min(gw*.28,42);
   const top=Math.ceil(Math.max(...ms.map(m=>Math.max(m.net,m.cost)))/100000)*100000||100000;
   const Y=v=>P.t+(1-v/top)*(H-P.t-P.b), base=Y(0);
   const grid=[0,top/2,top].map(g=>`<line x1="${P.l}" x2="${W-P.r}" y1="${Y(g)}" y2="${Y(g)}" stroke="var(--line)"/><text x="${P.l-6}" y="${Y(g)+4}" text-anchor="end">${g/10000}万</text>`).join("");
@@ -315,7 +360,7 @@ function renderStatic(){
     <text x="${cx}" y="${Math.min(Y(m.net),Y(m.cost))-7}" text-anchor="middle" style="fill:${m.profit<0?"var(--bad)":"var(--good)"};font-weight:500">${m.profit<0?"−":"+"}${(Math.abs(m.profit)/10000).toFixed(1)}万</text>
     <text x="${cx}" y="${H-8}" text-anchor="middle" style="fill:var(--ink);font-family:var(--font);font-size:12px">${mo(m.month)}</text>`}).join("");
   $("pl-chart").innerHTML=`<div class="legend"><span><i style="background:var(--accent)"></i>手取り</span><span><i style="background:var(--accent-2)"></i>運営費</span><span style="color:var(--good)">上の数字＝営業利益</span></div>
-    <svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:${W}px" role="img" aria-label="月ごとの手取りと運営費">${grid}${bars}</svg>`;
+    <svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="月ごとの手取りと運営費">${grid}${bars}</svg>`;
   const cols=[...ms,{...T,month:"合計"}];
   const money=[["売上（宿泊料）","gross",""],["Airbnb手数料","fee","−"],["手取り","net","b"],["家賃","rent","−"],["リネン","linen","−"],["清掃","cleaning","−"],["光熱・消耗品ほか","other_cost","−"],["運営費 計","cost","b−"],["営業利益","profit","p"]];
   const cell=(v,f)=>f==="p"?`<b class="${v<0?"neg":"pos"}">${yen(v)}</b>`:f.includes("b")?`<b>${f.includes("−")&&v?"−":""}${yen(v)}</b>`:`${f==="−"&&v?"−":""}${yen(v)}`;
@@ -346,8 +391,7 @@ function renderStatic(){
   // この先
   const A=d.months.filter(m=>m.status!=="実績").slice(0,4);
   $("ahead-lead").textContent=`${d.generated.slice(0,10)}時点で入っている予約だけの数字です。これから予約が増えます。`;
-  $("ahead").innerHTML=`<thead><tr><th>月</th><th>状態</th><th>泊数</th><th>予約</th><th>売上</th><th>手取り</th></tr></thead><tbody>`+
-    A.map(m=>`<tr><td>${ym(m.month)}</td><td style="font-family:var(--font)">${m.status==="今月"?"今月（途中）":"予約済みの分"}</td><td>${m.nights}泊</td><td>${m.bookings}組</td><td>${yen(m.gross)}</td><td>${yen(m.net)}</td></tr>`).join("")+`</tbody>`;
+  $("ahead").innerHTML=A.map(m=>`<div class="fig"><span class="k">${ym(m.month)}<span class="chip ${m.status==="今月"?"run":""}">${m.status==="今月"?"今月・途中":"予約済み"}</span></span><span class="v">${man(m.gross)}</span><span class="s">${m.nights}泊・${m.bookings}組・手取り${man(m.net)}</span></div>`).join("");
 
   // 集客
   const v=d.views;
@@ -407,10 +451,13 @@ function history(daily,exps){
     <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="1.8"/>${marks}${lbl}</svg></div>`;
 }
 
-// 見ている場所に合わせて左のメニューを強調
-try{const links=[...document.querySelectorAll(".side a")];
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id))}}),{rootMargin:"-30% 0px -65% 0px"});
-  document.querySelectorAll("section.block[id]").forEach(x=>io.observe(x));}catch(e){}
+// 左のメニューで画面を切り替える。#overview などのリンクで直接開ける
+const VIEWS=["overview","monthly","tatekae","marketing","initial"];
+function show(){const v=VIEWS.includes(location.hash.slice(1))?location.hash.slice(1):"overview";
+  document.querySelectorAll(".view").forEach(el=>el.hidden=el.id!=="v-"+v);
+  document.querySelectorAll("[data-view]").forEach(a=>a.classList.toggle("on",a.dataset.view===v));
+  window.scrollTo(0,0);}
+window.addEventListener("hashchange",show); show();
 fetch("data.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(render)
   .catch(e=>{$("stamp").innerHTML=`<span class="err">数字を読み込めませんでした（${esc(e.message)}）</span>`});
 </script>
