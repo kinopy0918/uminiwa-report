@@ -141,6 +141,8 @@ dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
 @media (max-width:900px){#tk{grid-template-columns:repeat(2,minmax(0,1fr))}}
 #v-tatekae .row{align-items:start}
 #tk-month td small{font-size:11px}
+#init-month tfoot td{border-top:1px solid var(--ink);font-weight:600}
+#init-month td,#init-month th{padding:7px 8px;font-size:12.5px}
 #tk-month tfoot td{border-top:1px solid var(--ink);font-weight:600}
 </style>
 </head>
@@ -256,9 +258,14 @@ dl.gloss dt{font-weight:600} dl.gloss dd{margin:0;color:var(--muted)}
   </section>
   </div>
   <div class="view" id="v-initial">
+  <section class="block" id="s-init-month">
+    <h2>いつ・何に使ったか<a class="btn" id="init-link" href="#" target="_blank" rel="noopener">初期費用の一覧（スプレッドシート）↗</a></h2>
+    <p class="lead" id="init-month-lead"></p>
+    <div class="scroll"><table id="init-month"></table></div>
+  </section>
   <div class="row even">
   <section class="block" id="s-init">
-    <h2><span class="no">08</span>初期投資の内訳</h2>
+    <h2><span class="no">08</span>初期投資の科目別</h2>
     <p class="lead" id="init-lead"></p>
     <div class="scroll"><table id="init" style="min-width:0;max-width:520px"></table></div>
   </section>
@@ -462,6 +469,15 @@ function renderStatic(){
     d.experiments.map(e=>`<tr><td>${esc(e.id)}</td><td class="wrap">${esc(e.title)}${e.detail?`<br><small style="color:var(--muted)">${esc(e.detail)}</small>`:""}</td><td>${e.started?esc(e.started.slice(5).replace("-","/")):"—"}</td><td>${chip(e)}</td></tr>`).join("")+`</tbody>`;
 
   // 初期投資
+  // 初期投資：月×科目
+  const IM=d.initial.monthly||{}, imMonths=Object.keys(IM).sort(), cats=Object.keys(d.initial.by_cat);
+  $("init-link").href=d.initial.sheet||"#";
+  $("init-month-lead").textContent=`開業前（${ym(imMonths[0]||"2025-09")}〜開業日の前日）に使ったお金を、月ごと・科目ごとに並べたもの。1件ずつの明細（日付・内容・支払先・払った人）は右上のスプレッドシートにあります。`;
+  const imTot=m=>Object.values(IM[m]||{}).reduce((a,b)=>a+b,0);
+  let cum=0;
+  $("init-month").innerHTML=`<thead><tr><th>月</th>${cats.map(c=>`<th>${esc(c)}</th>`).join("")}<th>その月の計</th><th>累計</th></tr></thead><tbody>`+
+    imMonths.map(m=>{cum+=imTot(m); return `<tr><td>${ym(m)}</td>${cats.map(c=>`<td>${(IM[m]||{})[c]?yen(IM[m][c]):`<span style="color:var(--faint)">—</span>`}</td>`).join("")}<td><b>${yen(imTot(m))}</b></td><td>${yen(cum)}</td></tr>`}).join("")+
+    `</tbody><tfoot><tr class="sum"><td>合計</td>${cats.map(c=>`<td>${yen(d.initial.by_cat[c])}</td>`).join("")}<td>${yen(init)}</td><td></td></tr></tfoot>`;
   $("init-lead").textContent=`初期投資 ${yen(init)} の科目別の内訳（台帳に記帳した額）。`;
   $("init").innerHTML=`<tbody>`+Object.entries(d.initial.by_cat).map(([k,n])=>`<tr><td>${esc(k)}</td><td>${yen(n)}</td><td style="color:var(--faint)">${pct(n/init)}</td></tr>`).join("")+
     `<tr class="sum"><td>合計</td><td>${yen(init)}</td><td></td></tr></tbody>`;
@@ -472,7 +488,7 @@ function renderStatic(){
     `一度きりの大きな支出を含む月があります：7月 トイレ修理 ¥51,920／8月 掃除機などの備品 ¥45,108／10月 使い捨て歯ブラシ2000セット ¥30,800（数年分を一括で計上）と玄関の電子錠 ¥11,386。`,
     `電気・水道はLINEで届いた領収書の分だけ入っています（電気は9月分まで・水道は8月分まで）。10月以降の分が届くまで、その月の利益は高めに出ます。`,
     `Airbnbの手数料は9/16以降の予約から3%→15.5%に上がりました。家賃は契約額の日割り、インターネットは月¥5,813の固定額を日割り、リネンは単価表からの計算、清掃は10月から1回¥2,500です。`,
-    `初期投資は台帳に記帳した額です。請求書・通帳と照合済みなのは電気工事（¥1,167,100）と家賃の一部だけで、改装工事・家具などの多くは原本の確認が済んでいません。`,
+    `初期投資は台帳に記帳した額で、開業前の家賃（7月1日〜15日の日割り）とインターネット代（2026年1月〜7月15日）を含みます。請求書・通帳と照合済みなのは電気工事（¥1,167,100）と家賃の一部だけで、改装工事・家具などの多くは原本の確認が済んでいません。`,
     `口座の記帳は${esc(d.ledger_until)}まで。`,
   ].map(s=>`<li>${s}</li>`).join("");
 }
